@@ -17,6 +17,18 @@ bibliography: "./references/chimeraProject_no_url.bib"
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 library(bookdown)
 ```
+
 \begin{abstract}
-Modular cloning techniques have enabled the rapid assembly of synthetic genetic constructs, facilitating projects ranging from high value compound production to genetic circuit design. Available modular cloning toolkits consisting of hundreds of cis-regulatory elements (CRE) such as promoters and terminators, enable combinatorial assembly for the optimisation of gene expression within genetic pathways or circuits. However, it is unclear how much the contributions of CREs to gene expression depend on other CREs in the host gene. The relationship and dependence of the selected CREs is of interest, not only for those looking to use libraries for tailored gene expression, but also those looking to characterise elements within a library. Here, we explore CRE independence or composability, by performing a comprehensive combinatorial three-way exploration of promoter, coding sequence (CDS) and terminator dependence in budding yeast. Our results show that the quantitative effect of a terminator on gene expression depends on both promoter and coding sequence. We further show that the effect of individual motifs within terminator regions on RNA abundance depends both on its host terminator, and the associated promoter sequence. This emphasises the need for improved motif inference that includes both local and global context effects, which in turn could aid in the accurate use of CREs for the engineering of synthetic genetic constructs. 
+
+Genes are commonly abstracted into a coding sequence and cis-regulatory elements (CREs), that act together to regulate gene expression. 
+A working model across synthetic and computational biology treats multiple CREs as composable, that is, having independent effects on gene expression.
+The extent to which short CREs, i.e. sequence motifs, display context-dependence remains poorly understood, despite growing evidence of context-dependent effects from longer promoter and terminator regions.
+We quantify the composability of CREs using combinatorial reporter genes in budding yeast, focusing on 3' terminators.
+We find that the effect of a terminator on gene expression depends on promoter and coding sequence context.
+We next estimate the effects of motifs within terminators by analysing transcriptome-wide datasets of mRNA decay with linear statistical models that assume composability.
+We quantify the composability of combinations of motifs in multiple contexts.
+The effect of a motif on RNA abundance depends on both the promoter and terminator context.
+RNA-seq of 3' transcript ends shows that the polyadenylation site depends only on the terminator sequence and can be changed by motif insertion.
+Our results emphasise the need for improved motif inference that includes context effects, which in turn could aid in the accurate engineering of synthetic genes.
+
 \end{abstract}
