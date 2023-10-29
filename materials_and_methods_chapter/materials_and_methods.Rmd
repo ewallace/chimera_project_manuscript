@@ -22,7 +22,7 @@ DNA sequences used in this study are summarised in Supplementary Tables \@ref(ta
 Assembled plasmids were transformed into yeast BY4741 using lithium acetate transformation [@Gietz2002a], and selected in SC-URA agar plates to isolate successful transformants.
 
 The mCherry coding sequence is as used in @Garcia2018, which in turn was amplified from the mCherry sequence in @Sharon2012.
-The mTurquoise2 coding sequence is as used in @Lee2015. 
+The mTurquoise2 coding sequence is as used in @Lee2015moclo. 
 
 ## Fluorescence measurements: Plate reader analysis of strain growth and fluorescence
 

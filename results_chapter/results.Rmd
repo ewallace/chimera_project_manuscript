@@ -47,8 +47,8 @@ We also confirmed that most differences in protein outputs are accounted for by 
 
 Terminators also affect protein output with 5-fold changes in fluorescence seen within the same promoter-CDS sets (pPGK1-mTurq-tPMA1 log2 fold change = -2.73, p.value =$1.19 \times 10^{-41}$), relative to the tPGK1 terminator of each group (Figure \@ref(fig:pro-ter-platereader-mCherry-mTurq-norm)B, Supplementary Table \@ref(tab:norm-terminator-sig-effect)).
 We focus on constructs with high-expression promoters due to the poor signal to noise ratio at low expression levels.
-The interaction of coding sequence and terminator is seen most clearly for tPAB1.
-tPAB1 is consistently the most highly expressed terminator in mTurquoise2 constructs, but is more variable in mCherry constructs.
+The interaction of coding sequence and terminator is seen most clearly for tRPS3 compared to tPGK1.
+Constructs with tRPS3 are consistently more highly expressed in mCherry constructs compared to mTurquoise2 constructs with the same promoter.
 Meanwhile, tPGK1 highlights the interactions of promoter and terminator.
 tPGK1 is one of the most highly expressing terminators when paired with pPGK1 and pHSP26, but is up to 40% lower in expression when paired with pRPS3 or pRPS13.
 Overall, our results show that the contributions of terminators (including 3'UTRs) to gene expression depend on other parts within the gene.
@@ -209,8 +209,9 @@ Surprisingly, tRPS3 mod_NNN constructs appear to be using a novel upstream poly(
 
 Next, we compared changes in poly(A) site usage between constructs with different inserted motifs.
 We highlight the 2 major poly(A) sites for the tRPS3 constructs and 2 for the tTSA1 constructs (black vertical lines on the mod_NNN constructs in Figure \@ref(fig:quantseq-polyA-site-usage)B) and track the cumulative fraction of reads upstream of each major site.
-However, for tRPS3 constructs there is a distinct shift to downstream poly(A) sites in constructs with verified, rather than random, motifs inserted. 
+For tRPS3 constructs there is a distinct shift to downstream poly(A) sites in constructs with verified, rather than random, motifs inserted. 
 There are also smaller differences in poly(A) site usage between constructs with different motifs (Supplementary Figure \@ref(fig:quantseq-polyA-site-usage)C, Supplementary Table \@ref(tab:polya-usage-effect-table)).
+However, the poly(A) mapping results confirm that at least one copy of the motifs of interest are present in every major isoform for all constructs.
 
 ```{r quantseq-polyA-site-usage, fig.cap="\\textbf{Inserting motifs into RPS3 and TSA3 terminators changes 3'UTR length.} A subset of constructs were chosen to investigate changes in poly(A) site usage: WT, mod\\_NNN, mod\\_NTN, mod\\_NAA, and mod\\_HTH; within three promoter-terminator contexts: pRPS3-tRPS3, pPGK1-tRPS3, and pTSA1-tTSA1. (\\textbf{A}) Comparison of construct transcript abundance as independently measured by qPCR and RNA-Seq assays. Transcript abundance was normalised to the median abundance of  plasmid URA3, genomic PGK1, and RPS3 or TSA1 transcripts for each construct. Fold change is relative to the mod\\_NNN construct in each promoter-terminator context. The black diagonal line represents the expected values if RNAseq and qPCR results correlated perfectly. (\\textbf{B}) Cumulative count of reads mapped downstream of WT (grey) and mod\\_NNN (golden) construct stop codons as fraction of total reads mapped to the constructs terminator. The x-axis shows the terminator sequence of the mod\\_NNN construct with inserted random motifs highlighted with a black background. WT reads have been shifted downstream to align with the mod\\_NNN sequence by accounting for motif insertion sites. Major poly(A) sites have been highlighted by a black vertical line. (\\textbf{Left}) shows the poly(A) sites for the pRPS3-tRPS3 and pPGK1-tRPS3 promoter-terminator constructs. (\\textbf{Right}) shows the same for the pTSA1-tTSA1 constructs. (\\textbf{C}) Similar to Figure \\textbf{B} but with each motif insertion construct plotted separately. Columns designate cumulative plots from different terminator constructs and rows designate cumulative plots from different promoter contexts.", fig.align='center', out.width="85%"}
 knitr::include_graphics(here("results_chapter/figures/polya_usage_plot_QuantSeq.png"))

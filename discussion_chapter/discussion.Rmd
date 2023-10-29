@@ -8,9 +8,10 @@ output:
 
 Our measurements of protein output from promoter-terminator combinations highlight the limitations of assuming that CREs are quantitatively composable.
 Unsurprisingly, fluorescent protein expression levels are dominated by promoter choice, up to 100 fold, and then terminator choice, up to 5 fold. 
-However, our observations of 1.5 fold change in the relative effect of terminators depending on coding sequence and promoter choice highlight the quantitative limitations of the assumption of composability.
+Our observations of 1.5 fold change in the relative effect of terminators depending on coding sequence and promoter choice highlight the quantitative limitations of the assumption of composability.
 Our results echo previous findings of idiosyncratic and context-dependent interactions between CREs @Dhillon2020.
 Previous work by Kosuri et al. @Kosuri2013 suggests that screening a larger library of CREs would reveal a subset with stronger quantitative interactions.
+These limitations in composability mean that combinations of CREs may work unpredictably in synthetic gene constructs, and so that genetic engineers should routinely consider testing multiple combinations of CREs.
 
 We focused on quantifying the context dependent behaviour of short cis-regulatory sequence motifs within the 3’UTR, in multiple promoter and terminator contexts.
 The contribution of our selected  motifs to mRNA stability, as inferred from transcriptome-wide analysis, correlates with their effect on the abundance of reporter constructs.
@@ -20,28 +21,26 @@ The exact sequences of the two HWNCATTWY motif instances did also differ by 4 nu
 These disparities in predicted and experimentally verified regulatory behaviour raises questions about current methods for discovering novel cis-regulatory elements and, more generally, for understanding and manipulating regulatory pathways.
 
 The effect of CREs can also depend on environmental context.
-Our motif search predicted a TGTAAATA motif to be stabilising in the [@Sun2013] dataset but destabilising in the [@Chan2018] dataset.
-TGTAAATA is a known binding motif for Puf3 and carbon deficient conditions trigger Puf3 to degrade its targets [@Miller2014].
-Carbon deficient conditions were likely present due to the bespoke CSM-lowURA media used by [@Chan2018], which is similar to the SC-URA media used in our assays, contrasting with carbon-rich YPD media used by [@Sun2013].
-Thus, carbon-dependent regulation by Puf3 could explain the different behaviour of TGTAAATA in the different datasets.
+Our motif search predicted a TGTAAATA motif to be stabilising in the Sun et al. @Sun2013 dataset but destabilising in the Chan et al. @Chan2018 dataset.
+TGTAAATA is a known binding motif for Puf3, and Puf3 activity in promoting mRNA degradation or translation depends on growth conditions including carbon source [@Miller2014; @Lee2015puf3].
+Growth conditions differed between the assays, with rich YPD media used by @Sun2013 and bespoke CSM-lowURA media used by @Chan2018, more similar to the SC-URA used in out experiments.
+Although we are not aware of direct experimental comparisons of Puf3 effects beyond specifically manipulating the carbon source, nutrient-dependent regulation by Puf3 might explain the different behaviour of TGTAAATA between datasets.
 
 RNA-Seq results confirmed our conclusions on the effect of motif insertions on gene expression. 
 pRPS3-tRPS3 and pTSA1-tTSA1 constructs show similar relative abundances in the qPCR results as the RNA-Seq results. 
 However, pPGK1-tRPS3 results are skewed due to the unexpected low abundance of mod_NNN constructs in the RNA-Seq results, which all other constructs are normalised to.
 
 Our poly(A) mapping results show that poly(A) site usage is context independent, as long as sequence elements determining termination are unaltered, in agreement with [@lui2022].
-Poly(A) site usage is remarkably consistent across terminators that are placed on plasmids in different promoter and coding sequence contexts that are different from the native genomic context (Supplementary Figures 6 and 7).
+Poly(A) site usage is remarkably consistent across terminators that are placed on plasmids in different promoter and coding sequence contexts that are different from the native genomic context (Figure \@ref(fig:quantseq-polyA-site-usage)).
 The sequences and relative usages of the poly(A) sites are not affected by inserting motifs into tTSA1 constructs.
 For tRPS3 constructs, poly(A) sites are again appropriately shifted downstream by the length of the insertions.
 However, a novel poly(A) site is introduced between the second and third inserted motifs.
-A possible explanation for the novel poly(A) site is that motifs 2 and 3 were inserted into a evolutionarily conserved element of tRps3, as detected by pHastCons [@Siepel2005].
-This might have disrupted an RBP target site or secondary structure in this region, leading to changes in polyadenylation site choice.
-Still, the poly(A) mapping results confirm that at least one copy of the motifs of interest are present in every major isoform for all constructs.
+A possible explanation for the novel poly(A) site is that motifs 2 and 3 were inserted into a evolutionarily conserved element of tRPS3, as detected by pHastCons [@Siepel2005].
+Insertion might have disrupted an RBP target site or secondary structure in this region, leading to changes in polyadenylation site choice.
 
-Our work quantifying the context dependent contributions of individual short sequence motifs challenges working models in computational biology.
-Motif detection algorithms need to progress beyond the assumption that the presence of a single motif alone ensures its functional effect.
-Uncertainty around the active state of a motif could be introduced using latent variables, as used in transcription factor (TF) binding site prediction algorithms to represent the proportion of active TF sites [@Dai2017; @Sanguinetti2006].
-High resolution maps of protein-RNA interactions are revealing RBPs with gapped, multi-partite motifs [@Bayne2021] or motifs that must be repeated in the same transcript to be effective [@Gu2004;@Jackson2004].
+Our work quantifying the context-dependent contributions of individual short sequence motifs challenges working models that assume that motifs have additive independent effects.
+Other lines of evidence challenging assumptions of composability include: regulatory protein binding to motifs in mRNA depends on the sequence context [@Taliaferro2016]; some regulatory RNA-binding proteins bind with gapped multi-partite motifs [@Bayne2021]; and some motifs must be repeated in the same transcript to be detectably functional [@Gu2004;@Jackson2004].
+A combination of experimental and computational techniques, as used here, enables the quantification of more complex context-dependent regulatory effects. 
 
 Conceptual models of genes are built in to the tools that biologists use, and can limit their ability to predict and manipulate gene expression [@Szymanski2019].
 Working models of CREs as independently acting composable parts exemplify these limits.
