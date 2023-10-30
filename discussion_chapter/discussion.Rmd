@@ -26,11 +26,7 @@ TGTAAATA is a known binding motif for Puf3, and Puf3 activity in promoting mRNA 
 Growth conditions differed between the assays, with rich YPD media used by @Sun2013 and bespoke CSM-lowURA media used by @Chan2018, more similar to the SC-URA used in out experiments.
 Although we are not aware of direct experimental comparisons of Puf3 effects beyond specifically manipulating the carbon source, nutrient-dependent regulation by Puf3 might explain the different behaviour of TGTAAATA between datasets.
 
-RNA-Seq results confirmed our conclusions on the effect of motif insertions on gene expression. 
-pRPS3-tRPS3 and pTSA1-tTSA1 constructs show similar relative abundances in the qPCR results as the RNA-Seq results. 
-However, pPGK1-tRPS3 results are skewed due to the unexpected low abundance of mod_NNN constructs in the RNA-Seq results, which all other constructs are normalised to.
-
-Our poly(A) mapping results show that poly(A) site usage is context independent, as long as sequence elements determining termination are unaltered, in agreement with [@lui2022].
+Our poly(A) mapping results show that poly(A) site usage is context independent, as long as sequence elements determining termination are unaltered, in agreement with Lui et al. [@lui2022].
 Poly(A) site usage is remarkably consistent across terminators that are placed on plasmids in different promoter and coding sequence contexts that are different from the native genomic context (Figure \@ref(fig:quantseq-polyA-site-usage)).
 The sequences and relative usages of the poly(A) sites are not affected by inserting motifs into tTSA1 constructs.
 For tRPS3 constructs, poly(A) sites are again appropriately shifted downstream by the length of the insertions.
@@ -44,8 +40,8 @@ A combination of experimental and computational techniques, as used here, enable
 
 Conceptual models of genes are built in to the tools that biologists use, and can limit their ability to predict and manipulate gene expression [@Szymanski2019].
 Working models of CREs as independently acting composable parts exemplify these limits.
-The characterisation of an element's function in a single context may or may not lead to generalisable conclusions.
-Studies of CREs should ideally be carried out with multiple combinations of other regulatory elements to build a comprehensive understanding of transcriptional and post-transcriptional regulation.
+The characterisation of an element's function in a single context may not lead to generalisable conclusions.
+To build a comprehensive understanding of transcriptional and post-transcriptional regulation, studies of CREs should ideally be carried out with multiple combinations of other regulatory elements.
 
 
 # Funding
