@@ -4,6 +4,12 @@ author: "Sam Haynes"
 date: "22/02/2022"
 output: html_document
 ---
+
+# Summary
+
+Creates summary data on poly(A)-site counts from QuantSeq and 5PSeq data, to be included in summary data for GEO submission.
+
+
 ```{r setup, include=FALSE}
 library(here)
 library(readr)
@@ -20,6 +26,8 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 source(here("raw_data_analysis/code/shared_figure_formatting.R"))
 ```
 
+# Load and set up metadata
+
 ```{r definitions}
 genomic_gene_dictionary <- tibble(construct_name = c("chrXIII", "chrIII", 
                                                      "chrXIV", "chrII", "chrVII"),
@@ -33,10 +41,12 @@ construct_stop_codon_dictionary <- read_csv(here("raw_data_analysis/data/rna_seq
 
 sample_to_construct_dictionary_QuantSeq <- read_csv(here("raw_data_analysis/data/rna_seq/sample_to_construct_table_QuantSeq.csv"))
 
-sample_to_construct_dictionary_QuantSeq_heat_shock <- read_csv(here("raw_data_analysis/data/rna_seq/sample_to_construct_table_QuantSeq_heat_shock.csv"))
+sample_to_construct_dictionary_QuantSeq_batch2 <- read_csv(here("raw_data_analysis/data/rna_seq/sample_to_construct_table_QuantSeq_batch2.csv"))
 
 sample_to_construct_dictionary_5PSeq <- read_csv(here("raw_data_analysis/data/rna_seq/sample_to_construct_table_5PSeq.csv"))
 ```
+
+# Define functions for loading poly(A)-proximal reads
 
 ```{r functions}
 # reads in the polyA reads bed file outputted from the
@@ -82,21 +92,15 @@ load_polyA_reads <- function(filename) {
 
 # function that accepts a file path to a featureCounts output file and removes unnecessary columns and standardises names so features across files can be combined 
 extract_gene_counts_from_featureCounts_file <- function(filepath){
-  raw_count_columns <- read_tsv(filepath, comment = "#") %>%
-    select(-Chr, -Start, -End, -Strand, -Length)
-  
-  plasmid_counts <- raw_count_columns %>%
-    filter(str_detect(Geneid, "primary_transcript|URA3")) %>%
-    mutate(Geneid = paste0("plasmid_", str_extract(Geneid,"(primary_transcript|URA3)")))
-  
-  renamed_counts_columns <- raw_count_columns %>%
-    filter(!str_detect(Geneid, "primary_transcript|URA3")) %>%
-    bind_rows(plasmid_counts)
-  
-  colnames(renamed_counts_columns) <- c("Geneid",
-                                        str_extract(colnames(renamed_counts_columns)[2],
-                                                    "^[A-Z0-9dt]+"))
-  renamed_counts_columns
+  read_tsv(filepath, comment = "#") %>%
+    # select only Geneid and sample
+    select(-Chr, -Start, -End, -Strand, -Length) %>%
+    # rename plasmid genes
+    mutate(Geneid = str_replace(Geneid, 
+                                "([\\w-]+)_(primary_transcript|URA3)", 
+                                "plasmid_\\2")) %>%
+    # remove bits except sample name
+    rename_with(~str_remove(., "_aln.bam"))
 }
 
 # for nucleotides without count data fill with 0 or value of last nucleotide with count data
@@ -132,10 +136,12 @@ fill_missing_nucleotide_data_QS_HS <- function(nucleotide_with_known_counts){
 }
 ```
 
+# Load poly(A)-proximal reads
+
 ```{r load_polyA_reads, warnings = FALSE, message = FALSE, include=FALSE}
 all_QuantSeq_PolyA_read_files <- list.files(path = here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq/"), pattern = ".bed$", recursive = TRUE, full.names = TRUE)
 
-all_QuantSeq_heat_shock_PolyA_read_files <- list.files(path = here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq_heat_shock/"), pattern = ".bed$", recursive = TRUE, full.names = TRUE)
+all_QuantSeq_batch2_PolyA_read_files <- list.files(path = here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq_batch2/"), pattern = ".bed$", recursive = TRUE, full.names = TRUE)
 
 all_5PSeq_PolyA_read_files <- list.files(path = here("raw_data_analysis/data/rna_seq/construct_polyA_bam/5PSeq/"), pattern = ".bed$", recursive = TRUE, full.names = TRUE)
 
@@ -147,7 +153,7 @@ full_QuantSeq_PolyA_reads <- all_QuantSeq_PolyA_read_files %>%
   lapply(load_polyA_reads) %>%
   purrr::reduce(bind_rows)
 
-full_QuantSeq_heat_shock_PolyA_reads <- all_QuantSeq_heat_shock_PolyA_read_files %>%
+full_QuantSeq_batch2_PolyA_reads <- all_QuantSeq_batch2_PolyA_read_files %>%
   lapply(load_polyA_reads) %>%
   purrr::reduce(bind_rows) %>%
   mutate(mod = ifelse(str_detect(construct_name,"mCherry"),"WT","genomic"),
@@ -160,6 +166,7 @@ full_QuantSeq_heat_shock_PolyA_reads <- all_QuantSeq_heat_shock_PolyA_read_files
 
 ```
 
+# Calculate cumulative distributions of poly(A) site positions
 
 ```{r calculate-cumulative-distibution, include=FALSE}
 
@@ -171,7 +178,7 @@ full_QuantSeq_polyA_reads_from_stop_codon <- full_QuantSeq_PolyA_reads %>%
   summarise(read_count = n()) %>%
   arrange(construct_name, read_end)
 
-full_QuantSeq_heat_shock_polyA_reads_from_stop_codon <-  full_QuantSeq_heat_shock_PolyA_reads  %>%
+full_QuantSeq_batch2_polyA_reads_from_stop_codon <-  full_QuantSeq_batch2_PolyA_reads  %>%
   inner_join(construct_stop_codon_dictionary) %>%
   mutate(read_end = read_end - stop_codon_pos) %>%
   mutate(read_end = ifelse(promoter == "pPMA1", - read_end, read_end)) %>%
@@ -191,7 +198,7 @@ full_5PSeq_polyA_reads_from_stop_codon <- full_5PSeq_PolyA_reads %>%
 empty_full_length_QuantSeq_plasmids <- tibble(construct_name = rep(full_QuantSeq_polyA_reads_from_stop_codon %>% pull(construct_name) %>% unique(), each = 201), 
                                               read_end = rep(0:200,18))
 
-empty_full_length_QuantSeq_heat_shock_plasmids <- tibble(construct_name = rep(full_QuantSeq_heat_shock_polyA_reads_from_stop_codon %>% pull(construct_name) %>% unique(), each = 501), 
+empty_full_length_QuantSeq_batch2_plasmids <- tibble(construct_name = rep(full_QuantSeq_batch2_polyA_reads_from_stop_codon %>% pull(construct_name) %>% unique(), each = 501), 
                                               read_end = rep(0:500,10))
 
 empty_full_length_5PSeq_plasmids <- tibble(construct_name = rep(full_5PSeq_polyA_reads_from_stop_codon %>% pull(construct_name) %>% unique(), each = 201), 
@@ -271,24 +278,24 @@ full_length_QuantSeq_plasmids_cumulative_polyA_reads_genomic <- full_QuantSeq_po
   arrange(Gene, read_end) %>%
   dplyr::rename(Position_from_stop_codon=read_end)
 
-full_length_QuantSeq_heat_shock_plasmids_cumulative_polyA_reads <- full_QuantSeq_heat_shock_polyA_reads_from_stop_codon %>%
+full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads <- full_QuantSeq_batch2_polyA_reads_from_stop_codon %>%
   group_by(construct_name, sample, URA3, terminator, promoter, mod) %>%
   do(fill_missing_nucleotide_data_QS_HS(.)) %>%
   dplyr::rename(location = construct_name) |>
   mutate(label = factor(mod),
          promoter = factor(promoter, levels = c("pHSP26","pRPS13","pPGK1", 
                                                 "pRPS3", "pTSA1","pTOS6","pPMA1"))) %>%
-  inner_join(sample_to_construct_dictionary_QuantSeq_heat_shock, by = c("sample" = "sample_name"))  |>
+  inner_join(sample_to_construct_dictionary_QuantSeq_batch2, by = c("sample" = "sample_name"))  |>
   mutate(sample = factor(sample, levels = expand.grid("WD_C",7:16) %>% 
                            unite(factor, sep = "") %>% 
                            add_row(factor = c("WD_E2", "WD_E3")) %>% 
                            pull(factor))) |>
   arrange(location, read_end,sample)
 
-full_length_QuantSeq_heat_shock_plasmids_cumulative_polyA_reads_control <-
-  full_length_QuantSeq_heat_shock_plasmids_cumulative_polyA_reads |>
+full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads_control <-
+  full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads |>
   filter(mod == "genomic") %>%
-  bind_rows(full_length_QuantSeq_heat_shock_plasmids_cumulative_polyA_reads %>%
+  bind_rows(full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads %>%
               filter(URA3) %>%
               mutate(promoter = "URA3")) |>
   ungroup() |>
@@ -298,8 +305,8 @@ full_length_QuantSeq_heat_shock_plasmids_cumulative_polyA_reads_control <-
   arrange(Gene, read_end) %>%
   dplyr::rename(Position_from_stop_codon=read_end)
 
-full_length_QuantSeq_heat_shock_plasmids_cumulative_polyA_reads_plasmid <-
-  full_length_QuantSeq_heat_shock_plasmids_cumulative_polyA_reads |>
+full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads_plasmid <-
+  full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads |>
   filter(mod == "WT", !URA3) |>
   ungroup() |>
   select(construct_name,read_count,read_end) |>
@@ -310,6 +317,8 @@ full_length_QuantSeq_heat_shock_plasmids_cumulative_polyA_reads_plasmid <-
   
 
 ```
+
+# Load genome-wide counts per gene
 
 ```{r whole-genome-counts}
 raw_featureCounts_files_QuantSeq <- list.files("../data/rna_seq/counts/QuantSeq", pattern = "*.txt$", recursive = TRUE, full.names = TRUE)
@@ -344,14 +353,16 @@ all_sample_counts_5PSeq <- raw_featureCounts_files_5PSeq %>%
   
 ```
 
+# Write counts per gene
+
 ```{r write_out_3UTR_counts, include = FALSE}
 write_tsv(full_length_QuantSeq_plasmids_cumulative_polyA_reads, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq/QS_processed_polyA_constructs.tsv"))
 
 write_tsv(full_length_QuantSeq_plasmids_cumulative_polyA_reads_genomic, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq/QS_processed_polyA_controls.tsv"))
 
-write_tsv(full_length_QuantSeq_heat_shock_plasmids_cumulative_polyA_reads_plasmid, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq_heat_shock/QS_processed_polyA_constructs.tsv"))
+write_tsv(full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads_plasmid, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq_batch2/QS_processed_polyA_constructs.tsv"))
 
-write_tsv(full_length_QuantSeq_heat_shock_plasmids_cumulative_polyA_reads_control, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq_heat_shock/QS_processed_polyA_controls.tsv"))
+write_tsv(full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads_control, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq_batch2/QS_processed_polyA_controls.tsv"))
 
 write_tsv(full_length_5PSeq_plasmids_cumulative_polyA_reads, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/5PSeq/FPS_processed_polyA_constructs.tsv"))
 
