@@ -111,6 +111,91 @@ calc_polyA_site_usage <- function(polyA_count_data, polyA_site_position){
 }
 ```
 
+```{r plot-functions}
+cumulative_reads_plot_theme <- 
+  list(labs(x="",
+            y="Cumulative \n Fraction of Reads"),
+       guides(linetype = "none",
+              shape = "none",
+              colour = "none"),
+       scale_y_continuous(expand = expansion(add = c(0.001,0.05)),
+                          labels = c("0", "", "0.5", "", "1")),
+       theme(legend.position = "bottom",
+             panel.border = element_blank()))
+
+cumulative_reads_plot_RPS3_TSA1  <- 
+  list(geom_step(aes(x = read_end_gap,
+                  y = rel_cumulative_counts,
+                  linetype = promoter,
+                  colour = label,
+                  group = sample)),
+    scale_colour_manual("Construct", values = RPS3_TSA1_colour_scheme),
+    scale_linetype_manual("Promoter", values = c("pRPS3" = "solid", 
+                                                 "pPGK1" = "dashed", 
+                                                 "pTSA1" = "dotdash")),
+    scale_shape_discrete("Promoter", drop = FALSE))
+
+cumulative_reads_plot_genomic_vs_plasmid  <- 
+  list(geom_step(aes(x = read_end,
+                     y = rel_cumulative_counts,
+                     colour = promoter,
+                     group = interaction(sample, mod),
+                     linetype = mod)),
+       scale_y_continuous(name = "Cumulative \n Fraction of Reads",
+                          expand = expansion(add = c(0.001,0.05)),
+                          labels = c("0", "", "0.5", "", "1")),
+       #scale_colour_manual("Promoter", values = promoter_colour_scheme),
+       scale_linetype_manual("Location", 
+                             values = c("genomic" = "solid", 
+                                                    "WT" = "dashed"),
+                             labels = c("genomic" = "Genome", 
+                                        "WT" = "Plasmid" )),
+       guides(colour = "none", linetype = "none"),
+       labs(x="Position"))
+  
+
+polyA_site_usage_plot <- list(geom_point(aes(y = factor(read_end), 
+                                             x = rel_cumulative_counts, 
+                                             colour = label)),
+                              labs(y="", 
+                                   x="Cumulative Fraction \n of Reads"),
+                              theme(legend.position = "bottom",
+                                    panel.margin = unit(0, "lines"),
+                                    strip.placement = "outside",
+                                    strip.text.y.left = element_markdown(face = "bold", 
+                                                                         size = 12, 
+                                                                         angle = 0)),                           
+                              scale_colour_manual(values = RPS3_TSA1_colour_scheme),
+                              guides(colour = "none", shape = "none"))
+
+make_scale_x_terminator <- function(tstart = 0, tstop = 200, ...) {
+  # convenience function for setting x axis scale for cumulative reads
+  scale_x_continuous(limits = c(tstart, tstop),
+                     expand = expansion(add = c(1,1)),
+                     ...) 
+}
+
+# set scale for each terminator so only define once
+scale_x_tRPS3  <- make_scale_x_terminator(30, 80)
+scale_x_tPGK1  <- make_scale_x_terminator(70, 170)
+scale_x_tTSA1  <- make_scale_x_terminator(80, 120)
+scale_x_tHSP26 <- make_scale_x_terminator(125, 250)
+scale_x_tPGK1  <- make_scale_x_terminator(70, 170)
+scale_x_tPMA1  <- make_scale_x_terminator(0, 500)
+scale_x_tTOS6  <- make_scale_x_terminator(0, 300)
+scale_x_tRPS3_mod  <- make_scale_x_terminator(47, 91)
+scale_x_tTSA1_mod  <- make_scale_x_terminator(110, 150)
+
+
+construct_sequence_plots <- list(theme(axis.ticks = element_blank(),
+        axis.title.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.border = element_blank(),
+        axis.line.y = element_blank()),
+  labs(x="Position relative to stop codon"))
+
+```
+
 ```{r load_polyA_reads, warnings = FALSE, message = FALSE, include=FALSE}
 all_QuantSeq_PolyA_read_files <- list.files(path = here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq/"), pattern = ".bed$", recursive = TRUE, full.names = TRUE)
 
@@ -298,24 +383,27 @@ genomic_QuantSeq_PGK1_cumulative_QC <- ggplot(full_length_QuantSeq_plasmids_cumu
          filter(promoter == "pPGK1")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="Position relative to stop codon", y="Cumulative\n fraction of reads", title = "Genomic PGK1 Poly(A) sites") +
-  lims(x = c(70,170)) +
-  guides(colour = FALSE)
+  scale_x_tPGK1 +
+  guides(colour = FALSE) +
+  cumulative_reads_plot_theme
 
 genomic_QuantSeq_TSA1_cumulative_QC <- ggplot(full_length_QuantSeq_plasmids_cumulative_QC %>%
                                 bind_rows(full_length_QuantSeq_batch2_plasmids_cumulative_QC) %>%
          filter(promoter == "pTSA1")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="Position relative to stop codon", y="", title = "Genomic TSA1 Poly(A) sites") +
-  lims(x = c(80,120)) +
-  guides(colour = FALSE)
+  scale_x_tTSA1 +
+  guides(colour = FALSE) +
+  cumulative_reads_plot_theme
 
 genomic_QuantSeq_RPS3_cumulative_QC <- ggplot(full_length_QuantSeq_plasmids_cumulative_QC %>%
                                 bind_rows(full_length_QuantSeq_batch2_plasmids_cumulative_QC_RPS3) %>%
          filter(promoter == "pRPS3")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="Position relative to stop codon", y="", title = "Genomic RPS3 Poly(A) sites") +
-  lims(x = c(30,80)) +
-  guides(colour = FALSE)
+  scale_x_tRPS3 +
+  guides(colour = FALSE) +
+  cumulative_reads_plot_theme
 
 genomic_QuantSeq_combined_cumulative_QC <- plot_grid(genomic_QuantSeq_PGK1_cumulative_QC,
           genomic_QuantSeq_TSA1_cumulative_QC,
@@ -334,42 +422,42 @@ genomic_QuantSeq_batch2_PGK1_cumulative_QC <- ggplot(full_length_QuantSeq_batch2
          filter(promoter == "pPGK1")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="Position relative to stop codon", y="", title = "Genomic PGK1 Poly(A) sites") +
-  lims(x = c(70,170)) +
+  scale_x_tPGK1 + 
   guides(colour = FALSE)
 
 genomic_QuantSeq_batch2_TSA1_cumulative_QC <- ggplot(full_length_QuantSeq_batch2_plasmids_cumulative_QC %>%
          filter(promoter == "pTSA1")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="Position relative to stop codon", y="", title = "Genomic TSA1 Poly(A) sites") +
-  lims(x = c(80,120)) +
+  scale_x_tTSA1 +
   guides(colour = FALSE)
 
 genomic_QuantSeq_batch2_RPS3_cumulative_QC <- ggplot(full_length_QuantSeq_batch2_plasmids_cumulative_QC %>%
          filter(promoter == "pRPS3")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="Position relative to stop codon", y="", title = "Genomic RPS3 Poly(A) sites") +
-  lims(x = c(30,80)) +
+  scale_x_tRPS3 +
   guides(colour = FALSE)
 
 genomic_QuantSeq_batch2_TOS6_cumulative_QC <- ggplot(full_length_QuantSeq_batch2_plasmids_cumulative_QC %>%
          filter(promoter == "pTOS6")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="Position relative to stop codon", y="", title = "Genomic TOS6 Poly(A) sites") +
-  lims(x = c(30,300)) +
+  scale_x_tTOS6 +
   guides(colour = FALSE)
 
 genomic_QuantSeq_batch2_HSP26_cumulative_QC <- ggplot(full_length_QuantSeq_batch2_plasmids_cumulative_QC %>%
          filter(promoter == "pHSP26")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="Position relative to stop codon", y="", title = "Genomic HSP26 Poly(A) sites") +
-  lims(x = c(140,190)) +
+  scale_x_tHSP26 +
   guides(colour = FALSE)
 
 genomic_QuantSeq_batch2_PMA1_cumulative_QC <- ggplot(full_length_QuantSeq_batch2_plasmids_cumulative_QC %>%
          filter(promoter == "pPMA1")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="Position relative to stop codon", y="", title = "Genomic PMA1 Poly(A) sites") +
-  lims(x = c(30,500)) +
+  scale_x_tPMA1 +
   guides(colour = FALSE)
 
 genomic_QuantSeq_batch2_combined_cumulative_QC <- plot_grid(genomic_QuantSeq_batch2_PGK1_cumulative_QC,
@@ -394,21 +482,21 @@ genomic_5PSeq_PGK1_cumulative_QC <- ggplot(full_length_5PSeq_plasmids_cumulative
          filter(promoter == "pPGK1")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="", y="Cumulative\n fraction of reads", title = "5PSeq \n Genomic PGK1 Poly(A) sites") +
-  lims(x = c(70,170)) +
+  scale_x_tPGK1 +
   guides(colour = FALSE)
 
 genomic_5PSeq_RPS3_cumulative_QC <- ggplot(full_length_5PSeq_plasmids_cumulative_polyA_reads_genomic %>%
          filter(promoter == "pRPS3")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="", y="Cumulative\n fraction of reads", title = "Genomic RPS3 Poly(A) sites") +
-  lims(x = c(30,80)) +
+  scale_x_tRPS3 +
   guides(colour = "none")
 
 genomic_5PSeq_TSA1_cumulative_QC <- ggplot(full_length_5PSeq_plasmids_cumulative_polyA_reads_genomic %>%
          filter(promoter == "pTSA1")) +
   geom_step(aes(x = read_end, y = rel_cumulative_counts, colour = sample)) +
   labs(x="Position relative to stop codon", y="Cumulative\n fraction of reads", title = "Genomic TSA1 Poly(A) sites") +
-  lims(x = c(80,120)) +
+  scale_x_tTSA1 +
   guides(colour = "none")
 
 genomic_5PSeq_combined_cumulative_QC <- plot_grid(genomic_5PSeq_PGK1_cumulative_QC,
@@ -453,114 +541,84 @@ ggsave2(here("raw_data_analysis/data/figures/polya_QC_plot_QuantSeq_batch2.png")
 
 ```
 
-```{r plot-QC-cumulative-graph-plasmid-WT-vs-genome}
+# Plot plasmid vs genome poly(A) sites for QuantSeq data
 
-plasmid_vs_genome_polyA_QuantSeq <- full_length_QuantSeq_plasmids_cumulative_polyA_reads %>%
+```{r plot-QC-cumulative-graph-plasmid-WT-vs-genome}
+# Collect the data
+plasmid_vs_genome_polyA_QuantSeq <- 
+  full_length_QuantSeq_plasmids_cumulative_polyA_reads %>%
   filter(mod == "WT", !URA3) %>%
   bind_rows(full_length_QuantSeq_plasmids_cumulative_QC %>%
               filter(terminator %in% c("tRPS3", "tTSA1"),
-                     sample %in% c("A12", "B12", "A1", "B1", "A5", "B5")))
+                     sample %in% c("A12", "B12", "A1", "B1", "A5", "B5"))) %>%
+  bind_rows(full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads %>%
+              filter(!URA3) )
 
-plasmid_vs_genome_polyA_QuantSeq_TSA1_plot <- ggplot(plasmid_vs_genome_polyA_QuantSeq %>%
+
+plasmid_vs_genome_polyA_QuantSeq_TSA1_plot <- 
+  ggplot(plasmid_vs_genome_polyA_QuantSeq %>%
          filter(terminator == "tTSA1",
                 sample %in% c("A5", "B5"))) +
-  geom_step(aes(x = read_end,
-                y = rel_cumulative_counts,
-                colour = sample,
-                linetype = mod)) +
-  labs(x="", y="Cumulative\n fraction of reads", title = "Genomic vs Plasmid TSA1 Poly(A) sites") +
-  lims(x = c(80,120)) +
-  guides(colour = "none", linetype = "none")
+  cumulative_reads_plot_genomic_vs_plasmid + 
+  labs(title = "Genomic vs Plasmid TSA1 Poly(A) sites") +
+  scale_x_tTSA1
 
 plasmid_vs_genome_polyA_QuantSeq_RPS3_plot <- ggplot(plasmid_vs_genome_polyA_QuantSeq %>%
          filter(terminator == "tRPS3",
                 sample %in% c("A12", "B12", "A1", "B1"))) +
-  geom_step(aes(x = read_end,
-                y = rel_cumulative_counts,
-                colour = sample,
-                linetype = mod)) +
-  labs(x="Position relative to stop codon", y="Cumulative\n fraction of reads", title = "Genomic vs Plasmid RPS3 Poly(A) sites") +
-  lims(x = c(30,80)) +
-  guides(colour = "none", linetype = "none")
+  cumulative_reads_plot_genomic_vs_plasmid + 
+  labs(title = "Genomic vs Plasmid RPS3 Poly(A) sites") +
+  scale_x_tRPS3
 
-# Repeat for heat shock proteins
+# Repeat for tHSP26
 
-plasmid_vs_genome_polyA_QuantSeq_batch2 <- full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads %>%
-  filter(!URA3)
-
-plasmid_vs_genome_polyA_QuantSeq_batch2_HSP26_plot <- ggplot(plasmid_vs_genome_polyA_QuantSeq_batch2 %>%
+plasmid_vs_genome_polyA_QuantSeq_HSP26_plot <- ggplot(plasmid_vs_genome_polyA_QuantSeq %>%
          filter(terminator == "tHSP26",
                 sample %in% c("WD_C9", "WD_C10", "WD_C11", 
                               "WD_C12", "WD_C13", "WD_C14", 
                               "WD_C15", "WD_C16"))) +
-  geom_step(aes(x = read_end,
-                y = rel_cumulative_counts,
-                colour = sample,
-                linetype = mod)) +
-  labs(x="Position relative to stop codon", y="Cumulative\n fraction of reads", title = "Genomic vs Plasmid HSP26 Poly(A) sites") +
-  lims(x = c(125,250)) +
-  guides(colour = "none", linetype = "none")
+  cumulative_reads_plot_genomic_vs_plasmid + 
+  labs(title = "Genomic vs Plasmid HSP26 Poly(A) sites") +
+  scale_x_tHSP26
 
-plasmid_vs_genome_polyA_QuantSeq_batch2_TOS6_plot <- ggplot(plasmid_vs_genome_polyA_QuantSeq_batch2 %>%
+plasmid_vs_genome_polyA_QuantSeq_TOS6_plot <- ggplot(plasmid_vs_genome_polyA_QuantSeq %>%
          filter(terminator == "tTOS6",
                 sample %in% c("WD_C7", "WD_C8"))) +
-  geom_step(aes(x = read_end,
-                y = rel_cumulative_counts,
-                colour = sample,
-                linetype = mod)) +
-  labs(x="", y="Cumulative\n fraction of reads", title = "Genomic vs Plasmid TOS6 Poly(A) sites") +
-  lims(x = c(30,300)) +
-  guides(colour = "none", linetype = "none")
+  cumulative_reads_plot_genomic_vs_plasmid +
+  labs(title = "Genomic vs Plasmid TOS6 Poly(A) sites") +
+  scale_x_tTOS6
 
-plasmid_vs_genome_polyA_QuantSeq_batch2_PMA1_plot <- ggplot(plasmid_vs_genome_polyA_QuantSeq_batch2 %>%
+plasmid_vs_genome_polyA_QuantSeq_PMA1_plot <- ggplot(plasmid_vs_genome_polyA_QuantSeq %>%
          filter(terminator == "tPMA1",
                 sample %in% c("WD_E2", "WD_E3"))) +
-  geom_step(aes(x = read_end,
-                y = rel_cumulative_counts,
-                colour = sample,
-                linetype = mod)) +
-  labs(x="", y="Cumulative\n fraction of reads", title = "Genomic vs Plasmid PMA1 Poly(A) sites") +
-  lims(x = c(0,500)) +
-  guides(colour = "none", linetype = "none")
-
-plasmid_vs_genome_polyA_5PSeq <- full_length_5PSeq_plasmids_cumulative_polyA_reads %>%
-  filter(mod == "WT", !URA3) %>%
-  bind_rows(full_length_5PSeq_plasmids_cumulative_polyA_reads_genomic %>%
-              filter(terminator %in% c("tRPS3", "tTSA1"),
-                     sample %in% c("3dt", "4dt")))
-
-plasmid_vs_genome_polyA_5PSeq_RPS3_plot <- ggplot(plasmid_vs_genome_polyA_5PSeq %>%
-         filter(terminator == "tRPS3", !URA3)) +
-  geom_step(aes(x = read_end,
-                y = rel_cumulative_counts,
-                colour = sample,
-                linetype = mod)) +
-  labs(x="Position relative to stop codon", y="Cumulative\n fraction of reads", title = "Genomic vs Plasmid RPS3 Poly(A) sites (5PSeq)") +
-  lims(x = c(30,80)) +
-  guides(colour = "none", linetype = "none")
+  cumulative_reads_plot_genomic_vs_plasmid +
+  labs(title = "Genomic vs Plasmid PMA1 Poly(A) sites") +
+  scale_x_tPMA1
 
 
-plasmid_vs_genome_polyA_combined_plot <- plot_grid(plasmid_vs_genome_polyA_QuantSeq_TSA1_plot,
-                                                   plasmid_vs_genome_polyA_QuantSeq_RPS3_plot,
-                                                   get_legend(plasmid_vs_genome_polyA_5PSeq_RPS3_plot +
-                       guides(linetype = guide_legend(nrow = 1)) +
+plasmid_vs_genome_polyA_combined_plot <- 
+  plot_grid(plasmid_vs_genome_polyA_QuantSeq_TSA1_plot,
+            plasmid_vs_genome_polyA_QuantSeq_RPS3_plot,
+            get_legend(plasmid_vs_genome_polyA_QuantSeq_TSA1_plot +
+                         guides(linetype = guide_legend(nrow = 1)) +
                          scale_linetype_manual(name = "Location",
-                                             values = c("genomic" = "solid", 
-                                                        "WT" = "dotted"),
-                                             labels = c("genomic" = "Genome", 
-                                                        "WT" = "Plasmid")) +
+                                               values = c("genomic" = "solid", 
+                                                          "WT" = "dotted"),
+                                               labels = c("genomic" = "Genome", 
+                                                          "WT" = "Plasmid")) +
                          theme(legend.justification = "centre",
                                legend.box.margin = margin(),
                                legend.box = "vertical",
                                legend.title = element_text(hjust = 0.5))),
-                       ncol = 1,
-                       rel_heights = c(1, 1, 1))
+            ncol = 1,
+            rel_heights = c(1, 1, 1))
 plasmid_vs_genome_polyA_combined_plot
 
-plasmid_vs_genome_polyA_batch2_combined_plot <- plot_grid(plasmid_vs_genome_polyA_QuantSeq_batch2_TOS6_plot,
-                                                                        plasmid_vs_genome_polyA_QuantSeq_batch2_PMA1_plot,
-                                                                        plasmid_vs_genome_polyA_QuantSeq_batch2_HSP26_plot,
-                                                                        nrow = 3)
+plasmid_vs_genome_polyA_batch2_combined_plot <-
+  plot_grid(plasmid_vs_genome_polyA_QuantSeq_TOS6_plot,
+            plasmid_vs_genome_polyA_QuantSeq_PMA1_plot,
+            plasmid_vs_genome_polyA_QuantSeq_HSP26_plot,
+            nrow = 3)
 
 plasmid_vs_genome_polyA_batch2_combined_plot
 
@@ -593,6 +651,28 @@ ggsave2(here("raw_data_analysis/data/figures/plasmid_vs_genome_polyA_combined_ba
         dpi = fig_dpi,
         bg = "white")
 ```
+
+```{r plasmid_vs_genome_polyA_5PSeq}
+
+plasmid_vs_genome_polyA_5PSeq <- full_length_5PSeq_plasmids_cumulative_polyA_reads %>%
+  filter(mod == "WT", !URA3) %>%
+  bind_rows(full_length_5PSeq_plasmids_cumulative_polyA_reads_genomic %>%
+              filter(terminator %in% c("tRPS3", "tTSA1"),
+                     sample %in% c("3dt", "4dt")))
+
+plasmid_vs_genome_polyA_5PSeq_RPS3_plot <- ggplot(plasmid_vs_genome_polyA_5PSeq %>%
+         filter(terminator == "tRPS3", !URA3)) +
+  geom_step(aes(x = read_end,
+                y = rel_cumulative_counts,
+                colour = sample,
+                linetype = mod)) +
+  labs(x="Position relative to stop codon", y="Cumulative\n fraction of reads", title = "Genomic vs Plasmid RPS3 Poly(A) sites (5PSeq)") +
+  scale_x_tRPS3 +
+  guides(colour = "none", linetype = "none")
+
+plasmid_vs_genome_polyA_5PSeq_RPS3_plot
+```
+
 
 ```{r plot-cumulative-graph}
 cumulative_graph_QuantSeq_pRPS3 <- ggplot(full_length_QuantSeq_plasmids_cumulative_polyA_reads %>%
@@ -812,51 +892,6 @@ mean_qpcr_vs_5PSeq_dataset_mod_NNN_R_squared <- mean_qpcr_vs_5PSeq_dataset_mod_N
 ```
 
 
-```{r plot-functions}
-cumulative_reads_plot <- list(geom_step(aes(x = read_end_gap,
-                                            y = rel_cumulative_counts,
-                                            linetype = promoter,
-                                            colour = label,
-                                            group = sample)),
-                              labs(x="",
-                                   y="Cumulative \n Fraction of Reads",
-                                   linetype = "Promoter",
-                                   shape = "Promoter",
-                                   colour = "Construct"),
-                              guides(linetype = "none",
-                                     shape = "none",
-                                     colour = "none"),
-                              theme(legend.position = "bottom",
-                                    panel.border = element_blank()),
-                              scale_y_continuous(expand = expansion(add = c(0.001,0.05)),
-                                                 labels = c("0", "", "0.5", "", "1")),
-                              scale_colour_manual(values = RPS3_TSA1_colour_scheme),
-                              scale_shape_discrete(drop = FALSE),
-                              scale_linetype_manual(values = c("pRPS3" = "solid", "pPGK1" = "dashed", "pTSA1" = "dotdash")))
-
-polyA_site_usage_plot <- list(geom_point(aes(y = factor(read_end), 
-                                             x = rel_cumulative_counts, 
-                                             colour = label)),
-                              labs(y="", 
-                                   x="Cumulative Fraction \n of Reads"),
-                              theme(legend.position = "bottom",
-                                    panel.margin = unit(0, "lines"),
-                                    strip.placement = "outside",
-                                    strip.text.y.left = element_markdown(face = "bold", 
-                                                                         size = 12, 
-                                                                         angle = 0)),                           
-                              scale_colour_manual(values = RPS3_TSA1_colour_scheme),
-                              guides(colour = "none", shape = "none"))
-
-construct_sequence_plots <- list(theme(axis.ticks = element_blank(),
-        axis.title.y = element_blank(),
-        panel.grid.major.y = element_blank(),
-        panel.border = element_blank(),
-        axis.line.y = element_blank()),
-  labs(x="Position relative to stop codon"))
-
-```
-
 ```{r create-motifs-gaps-in-wt}
 tRPS3_motif_insertion_sites <- tibble(site = c(1,2,3), start = c(24, 48, 61), end = c(32, 56, 69))
 
@@ -1030,9 +1065,8 @@ pPGK1_pRPS3_cumulative_plot <- ggplot(tRPS3_WT_insertion_alpha %>%
   geom_vline(xintercept = c(58, 77), 
              size = 0.3) +
   labs(title = "tRPS3 PolyA Sites") +
-  cumulative_reads_plot +
-  scale_x_continuous(limits = c(47, 91),
-                     expand = expansion(add = c(1,1))) +
+  cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
+  scale_x_tRPS3_mod +
   theme(plot.margin = margin(l = 20),
         axis.line.x = element_blank(),
         axis.text.x = element_blank(),
@@ -1050,8 +1084,7 @@ pPGK1_pRPS3_construct_sequence <- ggplot() +
             colour = RPS3_terminator_sequence$colour,
             size = 2,
             family = "Mono") +
-  scale_x_continuous(limits = c(47, 91),
-                     expand = expansion(add = c(1,1))) +
+  scale_x_tRPS3_mod +
   construct_sequence_plots +
   theme(plot.margin = margin(l = 20))
 
@@ -1078,11 +1111,10 @@ pPGK1_pRPS3_cumulative_plot_all_constructs <- ggplot(tRPS3_WT_insertion_alpha %>
              aes(x = read_end_gap,
                  y = rel_cumulative_counts,
                  colour = label))  +
-  cumulative_reads_plot +
+  cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
   labs(title = "tRPS3 Poly(A) Sites",
        x="Position relative to stop codon") +
-  scale_x_continuous(limits = c(47, 91),
-                     expand = expansion(add = c(1,1))) +
+  scale_x_tRPS3_mod +
   facet_grid(label~promoter) +
   scale_colour_manual(values = RPS3_TSA1_colour_scheme[c("WT", "mod_HTH", "mod_NTN", "mod_NAA", "mod_NNN")]) +
    theme(panel.spacing.y = unit(0.4, "cm", data = NULL))
@@ -1100,9 +1132,8 @@ pTSA1_cumulative_plot <- ggplot(tTSA1_WT_insertion_alpha %>%
              colour = "red") +
   geom_vline(xintercept = c(127, 133), 
              size = 0.3)  +
-  scale_x_continuous(limits = c(110, 150),
-                     expand = expansion(add = c(1,1))) +
-  cumulative_reads_plot +
+  scale_x_tTSA1_mod +
+  cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
   guides(colour = "none") +
   labs(y="", 
        x = "",
@@ -1126,8 +1157,7 @@ pTSA1_construct_sequence <- ggplot() +
             colour = TSA1_terminator_sequence$colour,
             size = 2,
             family = "Mono") +
-  scale_x_continuous(limits = c(110, 150),
-                     expand = expansion(add = c(1,1))) +
+  scale_x_tTSA1_mod +
   construct_sequence_plots +
   theme(axis.text.y = element_blank(),
         plot.margin = margin(r = 20))
@@ -1155,34 +1185,33 @@ pTSA1_cumulative_plot_all_constructs <- ggplot(tTSA1_WT_insertion_alpha %>%
              aes(x = read_end_gap,
                  y = rel_cumulative_counts,
                  colour = label))  +
-  scale_x_continuous(limits = c(110, 145),
-                     expand = expansion(add = c(1,1)),
-                     breaks = c(110,120,130,140)) +
-  cumulative_reads_plot +
+  scale_x_tTSA1_mod +
+  cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
   guides(colour = "none") +
   labs(x = "Position relative to stop codon",
        title = "tTSA1 Poly(A) Sites",
        y = "") +
   facet_grid(label~promoter)
 
-quantseq_polya_site_usage_plot <- plot_grid(qPCR_vs_RNASeq_plot_QuantSeq,
-          plot_grid(pPGK1_pRPS3_cumulative_plot_with_seq,
-                             pTSA1_cumulative_plot_with_seq),
-          plot_grid(pPGK1_pRPS3_cumulative_plot_all_constructs,
-                             pTSA1_cumulative_plot_all_constructs,
-                    get_legend(pPGK1_pRPS3_cumulative_plot_all_constructs +
-                                guides(colour = guide_legend(ncol=1),
-                                       linetype = guide_legend(ncol=1)) +
-                                theme(legend.justification = "centre",
-                                      legend.direction = "vertical",
-                                      legend.box = "vertical",
-                                      legend.box.margin = margin(),
-                                      legend.key.size = unit(0.6, 'cm'))),
-                             nrow = 1,
-                             rel_widths = c(2,1.3,0.6)),
-          ncol = 1,
-          labels = "AUTO",
-          rel_heights = c(1,1.1,2.5))
+quantseq_polya_site_usage_plot <- 
+  plot_grid(qPCR_vs_RNASeq_plot_QuantSeq,
+            plot_grid(pPGK1_pRPS3_cumulative_plot_with_seq,
+                      pTSA1_cumulative_plot_with_seq),
+            plot_grid(pPGK1_pRPS3_cumulative_plot_all_constructs,
+                      pTSA1_cumulative_plot_all_constructs,
+                      get_legend(pPGK1_pRPS3_cumulative_plot_all_constructs +
+                                   guides(colour = guide_legend(ncol=1),
+                                          linetype = guide_legend(ncol=1)) +
+                                   theme(legend.justification = "centre",
+                                         legend.direction = "vertical",
+                                         legend.box = "vertical",
+                                         legend.box.margin = margin(),
+                                         legend.key.size = unit(0.6, 'cm'))),
+                      nrow = 1,
+                      rel_widths = c(2,1.3,0.6)),
+            ncol = 1,
+            labels = "AUTO",
+            rel_heights = c(1,1.1,2.5))
 ```
 
 ```{r quantseq-heat-shock-graph}
@@ -1192,9 +1221,7 @@ QuantSeq_batch2_HSP26_plasmid <- ggplot(full_length_QuantSeq_batch2_plasmids_cum
                 !URA3)) +
   geom_vline(xintercept = 164, 
              size = 0.3)  +
-  scale_x_continuous(limits = c(150, 180),
-                     expand = expansion(add = c(1,1)),
-                     breaks = c(150,160,170,180)) +
+  scale_x_tHSP26 +
   guides(colour = "none") +
   labs(x = "Position relative to stop codon",
        title = "tHSP26 Poly(A) Sites",
@@ -1207,10 +1234,7 @@ QuantSeq_batch2_HSP26_plasmid <- ggplot(full_length_QuantSeq_batch2_plasmids_cum
   guides(linetype = "none",
          shape = "none",
          colour = "none") +
-  theme(legend.position = "bottom",
-        panel.border = element_blank()) +
-  scale_y_continuous(expand = expansion(add = c(0.001,0.05)),
-                     labels = c("0", "", "0.5", "", "1"))
+  cumulative_reads_plot_theme
 
 QuantSeq_batch2_HSP26_combined <-
   plot_grid(QuantSeq_batch2_HSP26_plasmid,
@@ -1254,10 +1278,10 @@ relative_polya_counts_pRPS3_5PSeq <- ggplot(full_5PSeq_cumulative_polyA_reads %>
       colour = "Construct") +
   guides(linetype = "none") +
   scale_colour_manual(values = RPS3_TSA1_colour_scheme)+
-  lims(x = c(47, 91)) +
+  scale_x_tRPS3_mod +
   theme(legend.position = "bottom")
 
-QuantSeq_relative_polya_counts_pPGK1_pRPS3<- ggplot(full_QuantSeq_cumulative_polyA_reads %>%
+QuantSeq_relative_polya_counts_pPGK1_pRPS3 <- ggplot(full_QuantSeq_cumulative_polyA_reads %>%
          filter(!mod %in% c("genomic", "WT"),
                 !URA3,
                 terminator != "tTSA1") %>%
@@ -1268,7 +1292,7 @@ QuantSeq_relative_polya_counts_pPGK1_pRPS3<- ggplot(full_QuantSeq_cumulative_pol
                 colour = label),
             alpha = 0.7) +
   facet_grid(label~promoter) +
-  lims(x = c(47, 91)) +
+  scale_x_tRPS3_mod +
   labs(x="Position relative to stop codon",
       y="Fraction of Reads",
       linetype = "Promoter",
@@ -1277,7 +1301,7 @@ QuantSeq_relative_polya_counts_pPGK1_pRPS3<- ggplot(full_QuantSeq_cumulative_pol
          colour = "none") +
   scale_colour_manual(values = RPS3_TSA1_colour_scheme)
 
-QuantSeq_relative_polya_counts_pTSA1<- ggplot(full_QuantSeq_cumulative_polyA_reads %>%
+QuantSeq_relative_polya_counts_pTSA1 <- ggplot(full_QuantSeq_cumulative_polyA_reads %>%
          filter(!mod %in% c("genomic", "WT"),
                 !URA3,
                 terminator == "tTSA1") %>%
@@ -1294,8 +1318,7 @@ QuantSeq_relative_polya_counts_pTSA1<- ggplot(full_QuantSeq_cumulative_polyA_rea
   guides(linetype = "none",
          colour = "none") +
   scale_colour_manual(values = RPS3_TSA1_colour_scheme) +
-  scale_x_continuous(breaks = c(100, 120, 140),
-                     limits = c(90, 145)) +
+  scale_x_tTSA1_mod +
   theme(axis.title.y = element_blank())
 
 relative_polya_counts_QuantSeq_title <- ggdraw() + 
@@ -1360,9 +1383,8 @@ tRPS3_cumulative_plot_5PSeq <- ggplot(tRPS3_WT_insertion_alpha_5PSeq_and_QuantSe
   geom_vline(xintercept = c(58, 77), 
              size = 0.3) +
   labs(title = "tRPS3 Poly(A) Sites") +
-  cumulative_reads_plot +
-  scale_x_continuous(limits = c(47, 91),
-                     expand = expansion(add = c(1,1))) +
+  cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
+  scale_x_tRPS3_mod +
   theme(plot.margin = margin(l = 20),
         axis.line.x = element_blank(),
         axis.text.x = element_blank(),
@@ -1392,12 +1414,11 @@ tRPS3_cumulative_plot_all_constructs_5PSeq <- ggplot(tRPS3_WT_insertion_alpha_5P
                  shape = promoter,
                  y = rel_cumulative_counts,
                  colour = label))  +
-  cumulative_reads_plot +
+  cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
   labs(title = "tRPS3 Poly(A) Sites",
        x="Position relative to stop codon",
        linetype = "RNA-Seq") +
-  scale_x_continuous(limits = c(47, 91),
-                     expand = expansion(add = c(1,1))) +
+  scale_x_tRPS3_mod +
   facet_wrap(~label, nrow = 2)
 
 
