@@ -577,7 +577,8 @@ plasmid_vs_genome_polyA_5PSeq_RPS3_plot <-
                         labels = c("genomic" = "Genome", 
                                    "WT" = "Plasmid" )) +
   scale_y_continuous(expand = expansion(add = c(0.001,0.05)),
-                     labels = c("0", "", "0.5", "", "1"))
+                     labels = c("0", "", "0.5", "", "1")) +
+  theme(panel.border = element_blank())
 
 plasmid_vs_genome_polyA_5PSeq_RPS3_plot
 ```
@@ -812,7 +813,7 @@ qPCR_vs_RNASeq_plot_5PSeq <- ggplot(mean_qpcr_vs_5PSeq_dataset_mod_NNN ) +
   coord_equal() + 
   geom_text(aes(label = r_cor_label), 
             data = qpcr_vs_5PSeq_dataset_R_values, 
-            x = 1.5, y = 0.3, 
+            x = 1.4, y = 0.3, 
             size = text_cor_size, hjust = 1, vjust = 0)
 
 mean_qpcr_vs_QuantSeq_dataset_mod_NNN_R_squared <- mean_qpcr_vs_QuantSeq_dataset_mod_NNN %>%
@@ -966,7 +967,7 @@ tTSA1_WT_insertion_gaps <- full_length_QuantSeq_plasmids_cumulative_polyA_reads 
 
 # Plot cumulative poly(A)-site reads for modified terminators
 
-```{r create-figure-QuantSeq}
+```{r create-figure-QuantSeq, fig.height = 9}
 RPS3_terminator_sequence = tibble(position = 1:227, 
                                   mod_NNN = str_split("ATTTAATTATTAAATACATAAATCGTCTACGAAAACTATAAGTACAAACTACGCCTTAATGCTTGAGGATTCTTCTATTCTAGTGCACTTAATTGTTGCGGTTTCTTGCATATTGCCGTGTTTAGTCAGGAGGGTGCACGTTGAAGCAGTGCGTTGAAACTAGTTGTTATTTACAGAATCACAATATTATATAATCAAAAGAAAAGTTTTGTACAACACAACTGTGA","")[[1]]) %>%
   pivot_longer(- position, names_to = "construct", values_to = "nucleotide") %>%
@@ -1002,8 +1003,9 @@ pPGK1_pRPS3_cumulative_plot <- ggplot(tRPS3_WT_insertion_alpha %>%
              colour = "red") +
   geom_vline(xintercept = c(58, 77), 
              size = 0.3) +
-  labs(title = "tRPS3 PolyA Sites") +
   cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
+  labs(title = "tRPS3 poly(A) Sites",
+       y = "Cumulative\n fraction of reads") +
   scale_x_tRPS3_mod +
   theme(plot.margin = margin(l = 20),
         axis.line.x = element_blank(),
@@ -1050,7 +1052,7 @@ pPGK1_pRPS3_cumulative_plot_all_constructs <- ggplot(tRPS3_WT_insertion_alpha %>
                  y = rel_cumulative_counts,
                  colour = label))  +
   cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
-  labs(title = "tRPS3 Poly(A) Sites",
+  labs(title = "tRPS3 poly(A) Sites",
        x="Position relative to stop codon") +
   scale_x_tRPS3_mod +
   facet_grid(label~promoter) +
@@ -1075,7 +1077,7 @@ pTSA1_cumulative_plot <- ggplot(tTSA1_WT_insertion_alpha %>%
   guides(colour = "none") +
   labs(y="", 
        x = "",
-       title = "tTSA1 Poly(A) Sites") +
+       title = "tTSA1 poly(A) Sites") +
   theme(plot.margin = margin(r = 20),
         axis.line.x = element_blank(),
         axis.text.x = element_blank(),
@@ -1127,9 +1129,9 @@ pTSA1_cumulative_plot_all_constructs <- ggplot(tTSA1_WT_insertion_alpha %>%
   cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
   guides(colour = "none") +
   labs(x = "Position relative to stop codon",
-       title = "tTSA1 Poly(A) Sites",
-       y = "") +
-  facet_grid(label~promoter)
+       title = "tTSA1 poly(A) Sites") +
+  facet_grid(label~promoter) +
+  theme(axis.title.y = element_blank())
 
 quantseq_polya_site_usage_plot <- 
   plot_grid(qPCR_vs_RNASeq_plot_QuantSeq,
@@ -1178,9 +1180,9 @@ relative_polya_counts_pRPS3_5PSeq <- ggplot(full_5PSeq_cumulative_polyA_reads %>
                 colour = label),
             alpha = 0.7) +
   facet_wrap(~label, ncol = 3) +
-  labs(title = "Relative Poly(A) Counts (5PSeq), pRPS3",
+  labs(title = "Relative poly(A) counts (5PSeq), pRPS3",
        x="Position relative to stop codon",
-      y="Fraction of Reads",
+      y="Fraction of reads",
       linetype = "Promoter",
       colour = "Construct") +
   guides(linetype = "none") +
@@ -1230,7 +1232,7 @@ QuantSeq_relative_polya_counts_pTSA1 <- ggplot(full_QuantSeq_cumulative_polyA_re
 
 relative_polya_counts_QuantSeq_title <- ggdraw() + 
   draw_label(
-    "Relative Poly(A) Counts (QuantSeq)",
+    "Relative poly(A) Counts (QuantSeq)",
     fontface = 'bold',
     hjust = 0.5
   )
@@ -1293,8 +1295,9 @@ tRPS3_cumulative_plot_5PSeq <- ggplot(tRPS3_WT_insertion_alpha_5PSeq_and_QuantSe
              colour = "red") +
   geom_vline(xintercept = c(58, 77), 
              size = 0.3) +
-  labs(title = "tRPS3 Poly(A) Sites") +
   cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
+  labs(title = "tRPS3 poly(A) Sites",
+       y = "Cumulative\n fraction of reads") +
   scale_x_tRPS3_mod +
   theme(plot.margin = margin(l = 20),
         axis.line.x = element_blank(),
@@ -1326,29 +1329,32 @@ tRPS3_cumulative_plot_all_constructs_5PSeq <- ggplot(tRPS3_WT_insertion_alpha_5P
                  y = rel_cumulative_counts,
                  colour = label))  +
   cumulative_reads_plot_theme + cumulative_reads_plot_RPS3_TSA1  +
-  labs(title = "tRPS3 Poly(A) Sites",
+  labs(title = "tRPS3 poly(A) Sites",
        x="Position relative to stop codon",
+       y = "Cumulative\n fraction of reads",
        linetype = "RNA-Seq") +
   scale_x_tRPS3_mod +
   facet_wrap(~label, nrow = 2)
 
 
-polya_site_usage_plot_5PSeq <- plot_grid(plot_grid(qPCR_vs_RNASeq_plot_5PSeq,
-          tRPS3_cumulative_plot_with_seq_5PSeq, 
-          nrow = 1,
-          labels = c("", "B"),
-          rel_widths = c(0.8,1.5)),
-          plot_grid(tRPS3_cumulative_plot_all_constructs_5PSeq,
-                    get_legend(tRPS3_cumulative_plot_all_constructs_5PSeq +
-                                guides(colour = guide_legend(nrow=2)) +
-                                theme(legend.justification = "centre",
-                                      legend.box.margin = margin(),
-                                      legend.box = "vertical")),
-                             ncol = 1,
-                             rel_heights = c(2,1)),
-          ncol = 1,
-          labels = c("A", "C"),
-          rel_heights = c(1,2))
+polya_site_usage_plot_5PSeq <- 
+  plot_grid(
+    plot_grid(qPCR_vs_RNASeq_plot_5PSeq,
+              tRPS3_cumulative_plot_with_seq_5PSeq, 
+              nrow = 1,
+              labels = c("", "B"),
+              rel_widths = c(0.8,1.5)),
+    plot_grid(tRPS3_cumulative_plot_all_constructs_5PSeq,
+              get_legend(tRPS3_cumulative_plot_all_constructs_5PSeq +
+                           guides(colour = guide_legend(nrow=2)) +
+                           theme(legend.justification = "centre",
+                                 legend.box.margin = margin(),
+                                 legend.box = "vertical")),
+              ncol = 1,
+              rel_heights = c(4,1)),
+    ncol = 1,
+    labels = c("A", "C"),
+    rel_heights = c(1,1.5))
 ```
 
 

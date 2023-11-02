@@ -9,6 +9,7 @@ The goal of this is to make a plot comparing protein abundance with mRNA abundan
 ```{r setup}
 library(here)
 library(dplyr)
+library(tidyr)
 library(tibble)
 library(stringr)
 library(readr)
@@ -196,8 +197,8 @@ RPS3_TSA1_protein_and_RNA_plot <-
               expand = FALSE) +
   geom_text(aes(label = cor_label), 
             data = r_cor_data_RPS3_TSA1, 
-            y = 0.25, 
-            x= -0.6, 
+            x = -2, 
+            y = 0.9, 
             size = text_cor_size, 
             hjust = 0, 
             vjust = 1) +
@@ -218,8 +219,8 @@ PIR1_protein_and_RNA_plot <-
               expand = FALSE) + 
   geom_text(aes(label = cor_label), 
             data = r_cor_data_PIR1, 
-            y = 0.4, 
-            x= -0.3, 
+            x = -1, 
+            y = 1.9, 
             size = text_cor_size, 
             hjust = 0, 
             vjust = 1) +
