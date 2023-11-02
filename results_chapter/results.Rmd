@@ -192,24 +192,25 @@ First, to ask if poly(A) site depends only on the terminator sequence or on the 
 Second, to find if motif effects on mRNA abundance could be due to changes in the poly(A) site usage.
 Third, to check if motifs inserted in our terminators were unintentionally absent from the mature mRNA.
 We performed paired-end RNA-Seq using the QuantSeq REV protocol [@Moll2014], and mapped the reads to genome sequences extended by the relevant reporter plasmid sequence (see methods).
-Read 1 allows precise inference of poly(A) site position while read 2 generally overlaps the CDS and allows distinguishing terminators in native loci from reporter constructs, as long as the poly(A)-site is within about 300nt of the stop codon.
+Read 1 allows precise inference of poly(A) site position while read 2 generally overlaps the CDS and allows distinguishing terminators in native loci from reporter constructs, as long as the distance between poly(A)-site and stop codon is under about 300nt and so within the sequenced fragment length.
 We detected 1000s of reads on each reporter construct, which is enough to quantify poly(A) sites and expression with confidence.
 We display the poly(A) sites as the cumulative fraction of poly(A)-site reads mapped at each location downstream of construct stop codons, out of all reads mapped to the terminator.
-In native genes the poly(A) site locations were highly reproducible across samples, giving us confidence that changes in reporter poly(A) sites are meaningful (Supplementary Figure \@ref(fig:rnaseq-QC-QuantSeq-and-5PSeq-genomic-polyA)).
+In native genes the poly(A) site locations were highly reproducible across samples, giving us confidence that changes in reporter poly(A) sites are meaningful (Supplementary Figure \@ref(fig:rnaseq-QC-genomic-polyA)).
 We also checked that counts of native mRNAs are highly correlated between samples, giving us confidence that changes in construct detection are meaningful (Supplementary Figure \@ref(fig:rnaseq-QC-correlation)).
 
-Poly(A) sites are largely in the same positions relative to the stop codon in wild-type terminators at native genomic loci and plasmid constructs (Figure \@ref(fig:rnaseq-QC-genomic-vs-plasmid-polyA)).
-For terminators tPGK1 (expressed in pRPS3-mCherry-tTSA1), and tTSA1, tRPS3, tHSP26 and tTOS6 expressed from their cognate promoter, the major poly(A)-site is conserved in the plasmid and in most cases the poly(A)-site distribution is indistinguishable.
-The tHSP26 terminator has similar poly(A)-site distribution expressed on a plasmid from pHSP26, pRPS3, and pRPS13, although there is some termination after the major poly(A)-site in pHSP26-mCherry-tHSP26.
-We excluded a 420nt tPMA1 terminator construct from our analysis because this was beyond the library read length and so we could not reliably distinguish plasmid from genomic poly(A)-site reads.
+Poly(A) sites are largely in the same positions relative to the stop codon in wild-type terminators at native genomic loci and plasmid constructs (Figure \@ref(fig:rnaseq-genomic-vs-plasmid-polyA)).
+For plasmid-expressed terminators tPGK1, tTSA1, tRPS3, tHSP26 and tTOS6 driving mCherry expression, the major poly(A)-site is conserved and the poly(A)-site distribution is largely indistinguishable.
+Poly(A) sites are conserved in terminators regardless of the paired promoter, with tPGK1, tRPS3, and tTOS6 expressed downstream of pRPS3, and tTSA1 expressed paired with cognate pTSA1.
+The tHSP26 terminator has similar poly(A)-site distribution expressed paired with pHSP26, pRPS3, and pRPS13, although there is some termination after the major poly(A)-site in pHSP26-mCherry-tHSP26.
+We excluded a 420nt tPMA1 terminator construct from our analysis because the terminator was longer than library fragment lengths so we could not distinguish plasmid from genomic poly(A)-site reads.
 
 
-```{r rnaseq-QC-genomic-vs-plasmid-polyA, fig.cap="\\textbf{Poly(A) site usage remains the same for genomic terminators as for plasmid expressed WT terminators.} Cumulative fraction of poly(A)-site reads mapped downstream of stop codons for native genomic terminators and plasmid construct terminators. Each line plots the cumulative counts of a separate replicate. In some panels the dashed line indicating plasmid-mapped reads overlaps the genome-mapped reads as the cumulative distributions are not distinguishable.", fig.align='center',out.width="85%"}
-knitr::include_graphics(here("supplementary_data_chapter/figures/plasmid_vs_genome_polyA_combined_plot.png"))
+```{r rnaseq-genomic-vs-plasmid-polyA, fig.cap="\\textbf{Poly(A) sites are largely in the same positions in wild-type terminators at native genomic loci and plasmid constructs} Cumulative fraction of poly(A)-site reads mapped downstream of stop codons, for native genomic terminators and selected plasmid construct terminators. Each line plots the cumulative counts of a separate replicate, with solid line for genomic copy and dashed line for plasmid-expressed copy, coloured by promoter. In some panels the dashed line indicating plasmid-mapped reads overlaps the genome-mapped reads as the cumulative distributions are not distinguishable.", fig.align='center'}
+knitr::include_graphics(here("results_chapter/figures/plasmid_vs_genome_polyA_combined_plot.png"))
 ```
 
 
-We next mapped poly(A)-sites for three motif insertion constructs with large effect sizes in the qPCR results: mod_NAA, mod_HTH and mod_NTN, together with WT and mod_NNN controls, within three promoter-terminator contexts: pRPS3-tRPS3, pPGK1-tRPS3 and pTSA1-tTSA1.
+We then mapped poly(A)-sites for three motif insertion constructs with large effect sizes in the qPCR results: mod_NAA, mod_HTH and mod_NTN, together with WT and mod_NNN controls, within three promoter-terminator contexts: pRPS3-tRPS3, pPGK1-tRPS3 and pTSA1-tTSA1.
 Transcript abundance, relative to mod_NNN, for most constructs correlates strongly with qPCR results and so confirms them (Figure \@ref(fig:quantseq-polyA-site-usage)A).
 However, some constructs were detected as differentially abundant by RNA-seq for reasons that are unclear.
 For example, pPGK1-tRPS3 results are skewed due to the unexpected low abundance of mod_NNN constructs in the RNA-Seq results, which all other constructs are normalised to.
