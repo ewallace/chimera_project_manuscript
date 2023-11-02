@@ -1538,12 +1538,13 @@ polyA_site_p.value <- tRPS3_polyA_site_1 %>%
   bind_rows(tTSA1_polyA_site_2 %>%
               inner_join(tTSA1_polyA_site_2_max))  %>%
   filter(label != "mod_NNN") %>%
-  transmute(promoter, terminator, label, site, max_rel_counts, p.adj = p.adjust(p.value))
+  transmute(promoter, terminator, label, site, max_rel_counts, p.value, p.adj = p.adjust(p.value))
 
 polyA_site_p.value_5PSeq <- tRPS3_polyA_site_1_5PSeq %>%
   inner_join(tRPS3_polyA_site_1_max_5PSeq) %>%
   bind_rows(tRPS3_polyA_site_2_5PSeq %>%
-  inner_join(tRPS3_polyA_site_2_max_5PSeq))
+  inner_join(tRPS3_polyA_site_2_max_5PSeq)) %>%
+  transmute(promoter, terminator, label, site, max_rel_counts, p.value, p.adj = p.adjust(p.value))
 ```
 
 ```{r print-out-5pseq-results}

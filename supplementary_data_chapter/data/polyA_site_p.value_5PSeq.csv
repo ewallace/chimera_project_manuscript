@@ -1,11 +1,11 @@
-promoter,terminator,label,statistic,p.value,method,alternative,site,max_rel_counts
-pRPS3,tRPS3,WT,8,0.36131042852617873,Wilcoxon signed rank test with continuity correction,two.sided,1,0.0013329568442993472
-pRPS3,tRPS3,mod_HTH,28,1,Wilcoxon signed rank exact test,two.sided,1,0.0922242314647378
-pRPS3,tRPS3,mod_NTN,25,0.845703125,Wilcoxon signed rank exact test,two.sided,1,0.06252484358628024
-pRPS3,tRPS3,mod_NAA,28,1,Wilcoxon signed rank exact test,two.sided,1,0.10269110005835116
-pRPS3,tRPS3,mod_NNN,27,1,Wilcoxon signed rank exact test,two.sided,1,0.08724384230814841
-pRPS3,tRPS3,WT,32,0.6953125,Wilcoxon signed rank exact test,two.sided,2,0.09901264125439416
-pRPS3,tRPS3,mod_HTH,38,0.322265625,Wilcoxon signed rank exact test,two.sided,2,0.2965641952983725
-pRPS3,tRPS3,mod_NTN,26,0.921875,Wilcoxon signed rank exact test,two.sided,2,0.3646706287452529
-pRPS3,tRPS3,mod_NAA,42,0.16015625,Wilcoxon signed rank exact test,two.sided,2,0.20238784805735818
-pRPS3,tRPS3,mod_NNN,31,0.76953125,Wilcoxon signed rank exact test,two.sided,2,0.16975101661865655
+promoter,terminator,label,site,max_rel_counts,p.value,p.adj
+pRPS3,tRPS3,WT,1,0.0013329568442993472,0.36131042852617873,1
+pRPS3,tRPS3,mod_HTH,1,0.0922242314647378,1,1
+pRPS3,tRPS3,mod_NTN,1,0.06252484358628024,0.845703125,1
+pRPS3,tRPS3,mod_NAA,1,0.10269110005835116,1,1
+pRPS3,tRPS3,mod_NNN,1,0.08724384230814841,1,1
+pRPS3,tRPS3,WT,2,0.09901264125439416,0.6953125,1
+pRPS3,tRPS3,mod_HTH,2,0.2965641952983725,0.322265625,1
+pRPS3,tRPS3,mod_NTN,2,0.3646706287452529,0.921875,1
+pRPS3,tRPS3,mod_NAA,2,0.20238784805735818,0.16015625,1
+pRPS3,tRPS3,mod_NNN,2,0.16975101661865655,0.76953125,1

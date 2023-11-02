@@ -32,6 +32,64 @@ knitr::opts_chunk$set(fig.pos = "p", dpi = 300)
 
 ## Supplementary Tables
 
+
+\arrayrulecolor{white}
+
+```{r mCherry-seq}
+knitr::kable(tibble("mCherry construct sequences are available on the manuscript github repo." = "https://github.com/DimmestP/chimera_project_manuscript/ tree/main/supplementary_data_chapter/data/ mCherry_fluorescence_reporter_dna_sequences.csv"), caption = "\\textbf{Table showing the DNA sequences for all mCherry reporter constructs.}", format = "latex", align = "c")  %>%
+  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7) %>%
+  kableExtra::column_spec(1, width="30em")
+
+```
+
+
+```{r mTurq-seq}
+knitr::kable(tibble("mTurquoise2 construct sequences are available on the manuscript github repo" = "https://github.com/DimmestP/chimera_project_manuscript/ tree/main/supplementary_data_chapter/data/ mTurq_fluorescence_reporter_dna_sequences.csv"), caption = "\\textbf{Table showing the DNA sequences for all mTurquoise2 reporter constructs.}", format = "latex", align = "c")  %>%
+  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7) %>%
+  kableExtra::column_spec(1, width="30em")
+```
+
+\arrayrulecolor{black}
+
+
+```{r chimera-qpcr-primers-table}
+qpcr_primers <- readr::read_csv(here::here("./supplementary_data_chapter/data/chimera_qpcr_primers.csv"))
+knitr::kable(qpcr_primers, caption = "\\textbf{Primer sequences created for all qPCR experiments.}", format = "latex")  %>%
+  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7) %>%
+  kableExtra::row_spec(0, bold = TRUE, font_size = 7) %>%
+  kableExtra::column_spec(1, width = "4em") %>%
+  kableExtra::column_spec(3, width = "8em")
+```
+
+
+```{r HWNCATTWY-motif-coef}
+read.csv(here("./supplementary_data_chapter/data/HWNCAUUWY_shortlisted_motif_table.csv")) %>%
+  dplyr::transmute(Motif = term,  `Total Count` = total_count, Coef = estimate, `p.value`) %>%
+knitr::kable(format = "latex", caption="\\textbf{Selecting the HWNCATTWY motif, TTTCATTTC}. Summary of the number of occurences and contributions to a linear model predecting half-life for each possible version of the HWNCATTWY motif.")  %>%
+  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7) %>%
+  kableExtra::row_spec(0, bold = TRUE, font_size = 7)
+```
+
+```{r TGTAHMNTA-motif-coef}
+read.csv(here("./supplementary_data_chapter/data/UGUAHMNUA_shortlisted_motif_table.csv")) %>%
+  dplyr::transmute(Motif = term,  `Total Count` = total_count, Coef = estimate, `p.value`)  %>%
+knitr::kable(format = "latex", caption = "\\textbf{Selecting the UGUAHMNUA motif, TGTACAATA}. Summary of the number of occurences and contributions to a linear model predecting half-life for each possible version of the UGUAHMNUA motif.")  %>%
+  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7)  %>%
+  kableExtra::row_spec(0, bold = TRUE, font_size = 7)
+```
+
+
+
+```{r minimum-free-energy-table}
+minimum_free_energy <- readr::read_csv(here::here("./supplementary_data_chapter/data/terminator_mfe.csv"))
+knitr::kable(minimum_free_energy, caption = "\\textbf{Table showing minimum free energies of 3'UTR constructs with inserted/deleted motifs.}", format = "latex")  %>%
+  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7)  %>%
+  kableExtra::row_spec(0, bold = TRUE, font_size = 7) %>%
+  kableExtra::column_spec(3, width = "8em")
+```
+
+
+
 ```{r norm-terminator-sig-effect, results='asis'}
 norm_terminator_pvalue <- read_csv(here("supplementary_data_chapter/data/norm_terminator_pvalue.csv")) %>%
   dplyr::rename(`log2 fold change` = estimate)
@@ -125,6 +183,7 @@ norm_terminator_pvalue <- read_csv(here("supplementary_data_chapter/data/norm_te
     cat('\\end{table}')
 ```
 
+
 ```{r hlife-variance-table}
 knitr::kable(tibble(CRE = c("Codon Usage", "Motifs", "3'UTR Length"), Individual = c("42.0%", "3.2%", "0.6%"), Drop = c("-40.5%", "-1.6%", "0.0%"), Cumulative = c("42.0%", "43.7%", "43.7%")), caption = "\\textbf{Variance explained by each type of CRE in the half-life model applied to data from Chan et al (2018).} Variance explained was estimated in 3 different ways. The individual variance explained by a linear model containing each type of CRE on its own.  The drop in variance explained when one type of CRE is removed from the full model. The cumulative variance explained when each CRE is added to the linear model in sequence; starting with codon usage, then adding motifs and finally 3'UTR length.", format = "latex")  %>%
   kableExtra::kable_styling(latex_options = "hold_position",font_size = 7) %>%
@@ -132,56 +191,6 @@ knitr::kable(tibble(CRE = c("Codon Usage", "Motifs", "3'UTR Length"), Individual
 ```
 
 
-\arrayrulecolor{white}
-
-```{r mCherry-seq}
-knitr::kable(tibble("mCherry construct sequences are available on the manuscript github repo." = "https://github.com/DimmestP/chimera_project_manuscript/ tree/main/supplementary_data_chapter/data/ mCherry_fluorescence_reporter_dna_sequences.csv"), caption = "\\textbf{Table showing the DNA sequences for all mCherry reporter constructs.}", format = "latex", align = "c")  %>%
-  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7) %>%
-  kableExtra::column_spec(1, width="30em")
-
-```
-
-
-```{r mTurq-seq}
-knitr::kable(tibble("mTurq construct sequences are available on the manuscript github repo" = "https://github.com/DimmestP/chimera_project_manuscript/ tree/main/supplementary_data_chapter/data/ mTurq_fluorescence_reporter_dna_sequences.csv"), caption = "\\textbf{Table showing the DNA sequences for all mTurq reporter constructs.}", format = "latex", align = "c")  %>%
-  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7) %>%
-  kableExtra::column_spec(1, width="30em")
-```
-
-\arrayrulecolor{black}
-
-```{r chimera-qpcr-primers-table}
-qpcr_primers <- readr::read_csv(here::here("./supplementary_data_chapter/data/chimera_qpcr_primers.csv"))
-knitr::kable(qpcr_primers, caption = "\\textbf{Primer sequences created for all qPCR experiments.}", format = "latex")  %>%
-  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7) %>%
-  kableExtra::row_spec(0, bold = TRUE, font_size = 7) %>%
-  kableExtra::column_spec(1, width = "4em") %>%
-  kableExtra::column_spec(3, width = "8em")
-```
-
-```{r HWNCATTWY-motif-coef}
-read.csv(here("./supplementary_data_chapter/data/HWNCAUUWY_shortlisted_motif_table.csv")) %>%
-  dplyr::transmute(Motif = term,  `Total Count` = total_count, Coef = estimate, `p.value`) %>%
-knitr::kable(format = "latex", caption="\\textbf{Selecting the HWNCATTWY motif, TTTCATTTC}. Summary of the number of occurences and contributions to a linear model predecting half-life for each possible version of the HWNCATTWY motif.")  %>%
-  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7) %>%
-  kableExtra::row_spec(0, bold = TRUE, font_size = 7)
-```
-
-```{r TGTAHMNTA-motif-coef}
-read.csv(here("./supplementary_data_chapter/data/UGUAHMNUA_shortlisted_motif_table.csv")) %>%
-  dplyr::transmute(Motif = term,  `Total Count` = total_count, Coef = estimate, `p.value`)  %>%
-knitr::kable(format = "latex", caption = "\\textbf{Selecting the UGUAHMNUA motif, TGTACAATA}. Summary of the number of occurences and contributions to a linear model predecting half-life for each possible version of the UGUAHMNUA motif.")  %>%
-  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7)  %>%
-  kableExtra::row_spec(0, bold = TRUE, font_size = 7)
-```
-
-```{r minimum-free-energy-table}
-minimum_free_energy <- readr::read_csv(here::here("./supplementary_data_chapter/data/terminator_mfe.csv"))
-knitr::kable(minimum_free_energy, caption = "\\textbf{Table showing minimum free energies of 3'UTR constructs with inserted/deleted motifs.}", format = "latex")  %>%
-  kableExtra::kable_styling(latex_options = "hold_position", font_size = 7)  %>%
-  kableExtra::row_spec(0, bold = TRUE, font_size = 7) %>%
-  kableExtra::column_spec(3, width = "8em")
-```
 
 ```{r insertion-construct-ttest, results='asis'}
 motif_construct_ttests <- read_csv(here("supplementary_data_chapter/data/motif_construct_ttests.csv")) 
@@ -454,11 +463,47 @@ polya_usage_pvalue <- read_csv(here("supplementary_data_chapter/data/polyA_site_
       format = "latex") %>%
   kableExtra::row_spec(0, bold = TRUE))
     cat('\\end{tabular}}\\endgroup{}')
-    cat("\\caption{\\textbf{Tables showing relative usage of the two major Poly(A) sites in tRPS3 and tTSA1 terminators across constructs. p values are calculated using a two sided Wilcoxon signed rank exact test with respect to the mod\\_NNN construct.}}")
+    cat("\\caption{\\textbf{Tables showing relative usage of the two major Poly(A) sites in tRPS3 and tTSA1 terminators across constructs, measured by QuantSeq. p values are calculated using a two sided Wilcoxon signed rank exact test with respect to the mod\\_NNN construct.}}")
     cat('\\label{tab:polya-usage-effect-table}')
     cat('\\end{table}')
 
 ```
+
+
+```{r polya-usage-effect-5PSeq-table, results='asis'}
+polya_usage_pvalue_5PSeq <- read_csv(here("supplementary_data_chapter/data/polyA_site_p.value_5PSeq.csv")) 
+
+# Setting `results = 'asis'` allows for using Latex within the code chunk
+    cat('\\begin{table}')
+    cat('\\centering \\begingroup\\fontsize{7}{9}\\selectfont')
+    # `{c c}` Creates a two column table
+    # Use `{c | c}` if you'd like a line between the tables
+    cat('{\\renewcommand{\\arraystretch}{1}')
+    cat('\\begin{tabular}{ c c }')
+    cat('\\textbf{tRPS3 Site 1} & \\textbf{tRPS3 Site 2} \\\\')
+    print(kable(polya_usage_pvalue_5PSeq %>%
+              arrange(`p.adj`) %>%
+              filter(site == "1", terminator == "tRPS3") %>%
+              mutate(`p.adj` = signif(`p.adj`, 2)) %>%
+                       select(-site, -terminator),
+      format = "latex") %>%
+  kableExtra::row_spec(0, bold = TRUE))
+    cat('&')
+    print(kable(polya_usage_pvalue %>%
+              arrange(`p.adj`) %>%
+              filter(site == "2", terminator == "tRPS3") %>%
+              mutate(`p.adj` = signif(`p.adj`, 2)) %>%
+                       select(-site, -terminator),
+      format = "latex") %>%
+  kableExtra::row_spec(0, bold = TRUE))
+    cat('\\end{tabular}}\\endgroup{}')
+    cat("\\caption{\\textbf{Tables showing relative usage of the two major Poly(A) sites in tRPS3 and tTSA1 terminators across constructs, measured by 5PSeq. p values are calculated using a two sided Wilcoxon signed rank exact test with respect to the mod\\_NNN construct.}}")
+    cat('\\label{tab:polya-usage-effect-5PSeq-table}')
+    cat('\\end{table}')
+
+```
+
+
 \pagebreak
 
 ## Supplementary Figures
