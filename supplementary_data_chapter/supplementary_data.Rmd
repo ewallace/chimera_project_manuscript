@@ -30,7 +30,7 @@ library(kableExtra)
 knitr::opts_chunk$set(fig.pos = "p", dpi = 300)
 ```
 
-## Supplementary Tables
+## Supplementary Tables S1 - S13
 
 
 \arrayrulecolor{white}
@@ -503,10 +503,11 @@ polya_usage_pvalue_5PSeq <- read_csv(here("supplementary_data_chapter/data/polyA
 
 ```
 
+\FloatBarrier
 
-\pagebreak
+\newpage
 
-## Supplementary Figures
+## Supplementary Figures S1-S8
 
 ```{r raw-pro-ter-swap-protein-fluo, fig.cap="\\textbf{Both terminator and promoter contribute to gene expression.} (\\textbf{A}) Protein abundance estimated by mCherry and mTurquoise2 (mTurq) fluorescence for 10 terminators paired with 4 high expressing promoters. Fluorescence and OD were measured in cultures grown in a plate reader, and reported at the time of each sample's maximum growth rate (see methods). Each diamond represents a biological replicate, averaged over 3 technical replicates.  The vertical line is the mean of all 6 biological replicates. (\\textbf{B}) Same as panel B, but for 2 low expressing promoters. Negative fluorescence values arising from instrument noise dominating measurements of constructs with negligible fluorescence are automatically set to 0."}
 knitr::include_graphics(here("supplementary_data_chapter/figures/pro_ter_platereader_raw_mTurq_and_mCh.png"), dpi = 300)

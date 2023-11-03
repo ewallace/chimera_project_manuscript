@@ -8,6 +8,7 @@ output:
     toc: false
     keep_tex : true
     pandoc_args: [ "--csl", "./references/nucleic-acids-research.csl" ]
+    extra_dependencies: ["flafter", "placeins"]
 bibliography: "./references/chimeraProject_no_url.bib"
 ---
 

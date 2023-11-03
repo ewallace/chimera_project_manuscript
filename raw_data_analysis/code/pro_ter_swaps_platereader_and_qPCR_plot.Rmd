@@ -91,8 +91,8 @@ mCherry_protein_vs_RNA_cor <- mCherry_protein_vs_RNA |>
                                         signif(abs(cor), digits = 3))))) |>
   ungroup() |>
   mutate(x_pos = c(1,
-                   -1.95,
-                   -5.15),
+                   -1.9,
+                   -5.1),
          y_pos = c(log2(1800),
                    log2(4700),
                    log2(45)))
@@ -118,13 +118,6 @@ low_exp_mCh_mTurq_platereader_raw_figure <- ggplot(low_exp_pro_mCh_mTurq) +
                     oob=oob_squish, 
                     limits = c(0,NA))
 
-raw_fluo_low_and_high_pro <- plot_grid(high_exp_mCh_mTurq_platereader_raw_figure,
-          plot_grid(low_exp_mCh_mTurq_platereader_raw_figure,
-                    mCherry_protein_vs_RNA_figure,
-                    nrow = 1,
-                    labels = c("B", "C")),
-          ncol =1,
-          labels = c("A", ""))
 ```
 
 ```{r normalise-to-tPGK1}
@@ -177,7 +170,9 @@ norm_mTurq_and_mCherry_figure <- ggplot(data=norm_mTurq_and_mCherry %>% filter(!
   facet_grid(protein~Promoter) +
   protein_relative_abundance_figure_options
 
-UTR_length_panelB <- plot_grid(normalised_plot_RPS3, normalised_plot_SRO9, nrow = 2)
+UTR_length_panel <- plot_grid(normalised_plot_RPS3, 
+                              normalised_plot_SRO9, 
+                              nrow = 1)
 
 norm_terminator_pvalue <- norm_mTurq_and_mCherry %>% 
   filter(!Promoter %in% c("pSRO9", "pCLN2")) %>%
@@ -191,7 +186,7 @@ norm_terminator_pvalue <- norm_mTurq_and_mCherry %>%
   select(protein, Promoter, Terminator, estimate, p.adj)
 ```
 
-```{r combine-norm-diagram}
+```{r combine-norm-diagram, fig.height = 8}
 mCherry_protein_vs_RNA_figure <- ggplot(mCherry_protein_vs_RNA) +
   geom_point(aes(y = log2protein, x = -mRNA, colour = Terminator)) +
   scale_colour_hue(h = c(0, 360)+20,l=60,c=60) +
@@ -199,7 +194,7 @@ mCherry_protein_vs_RNA_figure <- ggplot(mCherry_protein_vs_RNA) +
   scale_y_continuous("mCherry fluorescence per \n OD at max growth rate",
                      breaks = log2(c(12.5, 25, 50, 100, 200, 400, 800, 1600, 3200, 6400)), 
                      labels = c("", "25", "50", "100", "200", "400", "800", "1600", "3200", "6400")) +
-  scale_x_continuous(TeX("mRNA abundance ($\\Delta\\,$Cq)"),
+  scale_x_continuous(TeX("mRNA abundance ($\\Delta$Cq)"),
                      breaks = c(-6, -5, -4, -3, -2, -1, 0, 1),
                      labels = c("-6", "-5", "-4", "-3", "-2", "-1", "0", "1")) +
   geom_text(aes(x= x_pos, y = y_pos, label = cor_text),
@@ -218,9 +213,9 @@ chimera_swaps_overview_figure <-
 composite_pro_ter_swap_figure <- 
   plot_grid(ggdraw() + draw_image(chimera_swaps_overview_figure),
             norm_mTurq_and_mCherry_figure,
-            UTR_length_panelB,
+            UTR_length_panel,
             ncol = 1,
-            rel_heights = c(0.41,1,1.05),
+            rel_heights = c(0.45,1,0.5),
             labels = c("A","B","C"))
 composite_pro_ter_swap_figure
 ```
@@ -307,17 +302,31 @@ ggplot(data=norm_mTurq_stat_phase %>%
   scale_x_continuous(oob=oob_squish, limits = c(0,1.9))
 ```
 
-```{r output-figures, eval=FALSE}
+```{r create_raw_fluo_low_and_high_pro, fig.height = 9}
+raw_fluo_low_and_high_pro <- plot_grid(high_exp_mCh_mTurq_platereader_raw_figure,
+          plot_grid(low_exp_mCh_mTurq_platereader_raw_figure,
+                    mCherry_protein_vs_RNA_figure,
+                    nrow = 1,
+                    rel_widths = c(0.59,0.41),
+                    labels = c("B", "C")),
+          ncol = 1,
+          labels = c("A", ""))
+
+raw_fluo_low_and_high_pro
+```
+
+
+```{r output-figures}
 ggsave(here("results_chapter/figures/pro_ter_swap_protein_and_norm_rna_exp_figure.png"),
        composite_pro_ter_swap_figure,
        width = fig_width_2column, 
-       height = 240, units = "mm", 
+       height = 180, units = "mm", 
        dpi = fig_dpi)
 
 ggsave(here("./supplementary_data_chapter/figures/pro_ter_platereader_raw_mTurq_and_mCh.png"), 
        raw_fluo_low_and_high_pro,
        width = fig_width_2column, 
-       height = 175, 
+       height = 210, 
        units = "mm", 
        dpi = fig_dpi)
 
