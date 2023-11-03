@@ -1,15 +1,21 @@
 ---
-title: "fps_summary"
+title: "5PSeq cound summary, only the 5' phosphorylated end distribution"
 author: "Weronika D."
 date: "5 04 2022"
 output: html_document
 ---
 
-Plotting 5P ends from 5PSeq experiment of reporter and control genes
+Plotting 5P ends from 5PSeq experiment of reporter and control genes.
+
+```{r setup}
+library(tibble)
+library(dplyr)
+library(ggplot2)
+library(cowplot)
+library(here)
+```
 
 ```{r load_data}
-library(here)
-
 genes = c("reporter", "YCR012W", "YML028W", "YNL178W")
 samples = c("3dt", "4dt", "5dt", "6dt", "7dt", "8dt", "9dt", "10dt", "11dt", "13dt", "15dt")
 
@@ -38,7 +44,6 @@ source(here("raw_data_analysis/code/shared_figure_formatting.R"))
 ```
 
 ```{r plot}
-library(dplyr)
 
 # limit the distance around the STOP codon and calculate cumulative sum for chosen region
 filter_counts = function(df, lower_limit, higher_limit) {
@@ -54,9 +59,6 @@ reporter_filtered = filter_counts(reporter_df, ll, hl)
 pgk1_filtered = filter_counts(pgk1_df, ll, hl)
 tsa1_filtered = filter_counts(tsa1_df, ll, hl)
 rps3_filtered = filter_counts(rps3_df, ll, hl)
-
-library(ggplot2)
-library(cowplot)
 
 # Cumulative plots
 reporter_p1 = ggplot(data = reporter_filtered, aes(x = Position, y = Cumulative, color = Sample)) +
@@ -76,6 +78,8 @@ rps3_p1 = ggplot(data = rps3_filtered, aes(x = Position, y = Cumulative, color =
   labs(title = "Genomic RPS3 5P end reads", x = "Position relative to stop codon", y= "Cumulative \n fraction of reads")
 
 combined_5p_end_read_plot <- cowplot::plot_grid(reporter_p1, pgk1_p1, tsa1_p1, rps3_p1)
+
+combined_5p_end_read_plot
 
 ggsave(here("supplementary_data_chapter/figures/combined_5p_end_read_plot.png"),
        combined_5p_end_read_plot, 
