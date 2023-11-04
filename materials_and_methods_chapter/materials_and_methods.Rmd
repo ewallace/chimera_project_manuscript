@@ -66,13 +66,13 @@ We measured all +RT reactions in technical triplicate, and negative control -RT 
 We used the manufacturer's software to calculate quantification cycle (Cq) for each individual well using the fit points method, and exported both raw fluorescence and Cq data.
 All primer sets were thoroughly validated by serial dilution and by confirming amplicon size. Sequences are available in Supplementary Table \@ref(tab:chimera-qpcr-primers-table).
 
-RT-qPCR data was analysed using our tidyqpcr R package v0.3 (https://github.com/ewallace/tidyqpcr).
+RT-qPCR data was analysed using our tidyqpcr R package [@Wallace2022].
 For each biological replicate, $\Delta$Cq values were calculated by normalising the median mCherry Cq values by the median Cq values of the three reference genes (RPS3, PGK1 and URA3).
 For the constructs with motif insertions in terminators, $\Delta\Delta$Cq values were calculated by normalising mCherry $\Delta$Cq by that of control construct mod_NNN strains (with the corresponding promoter) for tRPS3 and tTSA1 consructs.
 For the constructs with motif deletions in terminators, $\Delta\Delta$Cq values were calculated by normalising mCherry $\Delta$Cq by that of the WT terminator (with the corresponding promoter) for tPIR1 constructs.
 Complete scripts for qPCR analysis, quality control, and figure generation are available online at https://github.com/DimmestP/chimera_project_manuscript/.
 
-RNA-seq libraries were prepared using QuantSeq 3' mRNA-Seq Library Prep Kit REV for Illumina (Lexogen Gmbh, Vienna Austria).
+RNA-Seq libraries were prepared using QuantSeq 3' mRNA-Seq Library Prep Kit REV for Illumina (Lexogen Gmbh, Vienna Austria).
 500 ng of RNA (not treated with DNaseI) was used as input and manufacturer's protocol was followed without modifications.
 The number of amplification cycles was determined using PCR Add-on Kit for Illumina (Lexogen).
 The quality of the library was measured using Fragment Analyzer NGS Fragment Kit (1-6000bp) (Agilent).
