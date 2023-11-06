@@ -143,15 +143,17 @@ cumulative_reads_plot_theme <-
 
 cumulative_reads_plot_RPS3_TSA1  <- 
   list(geom_step(aes(x = read_end_gap,
-                  y = rel_cumulative_counts,
-                  linetype = promoter,
-                  colour = label,
-                  group = sample)),
-    scale_colour_manual("Construct", values = RPS3_TSA1_colour_scheme),
-    scale_linetype_manual("Promoter", values = c("pRPS3" = "solid", 
-                                                 "pPGK1" = "dashed", 
-                                                 "pTSA1" = "dotdash")),
-    scale_shape_discrete("Promoter", drop = FALSE))
+                     y = rel_cumulative_counts,
+                     linetype = promoter,
+                     colour = label,
+                     group = sample)),
+       scale_colour_manual("Construct", values = RPS3_TSA1_colour_scheme),
+       scale_linetype_manual("Promoter", 
+                             values = c("pRPS3" = "solid", 
+                                        "pPGK1" = "dashed", 
+                                        "pTSA1" = "dotdash"),
+                             drop = FALSE),
+       scale_shape_discrete("Promoter", drop = FALSE))
 
 cumulative_reads_plot_genomic_vs_plasmid  <- 
   list(geom_step(aes(x = read_end,

@@ -26,7 +26,7 @@ TGTAAATA is a known binding motif for Puf3, and Puf3 activity in promoting mRNA 
 Growth conditions differed between the assays, with rich YPD media used by @Sun2013 and bespoke CSM-lowURA media used by @Chan2018, more similar to the SC-URA used in out experiments.
 Although we are not aware of direct experimental comparisons of Puf3 effects beyond specifically manipulating the carbon source, nutrient-dependent regulation by Puf3 might explain the different behaviour of TGTAAATA between datasets.
 
-Our poly(A) mapping results show that poly(A) site usage is context independent, as long as sequence elements determining termination are unaltered, in agreement with Lui et al. [@lui2022].
+Our poly(A) mapping results show that poly(A) site usage is context independent, as long as sequence elements determining termination are unaltered, in agreement with Lui et al. [@Lui2022].
 We go beyond previous results by showing that poly(A) site usage is consistent across terminators that are placed on plasmids in different promoter, coding sequence, and downstream contexts that are different from the native genomic context (Figure \@ref(fig:quantseq-polyA-site-usage)).
 The sequences and relative usages of the poly(A) sites are not affected by inserting motifs into tTSA1 constructs, where the insertion sites were upstream of the termination region.
 For tRPS3 constructs, poly(A) sites are again appropriately shifted downstream by the length of the insertions.
@@ -35,7 +35,7 @@ A possible explanation for the novel poly(A) site is that motifs 2 and 3 were in
 Insertion might have disrupted an RBP target site or secondary structure in this region, leading to changes in polyadenylation site choice.
 
 Our work quantifying the context-dependent contributions of individual short sequence motifs challenges working models that assume that motifs have additive independent effects.
-Other lines of evidence challenging assumptions of composability include: regulatory protein binding to motifs in mRNA depends on the sequence context [@Taliaferro2016]; some regulatory RNA-binding proteins bind with gapped multi-partite motifs [@Bayne2021]; and some motifs must be repeated in the same transcript to be detectably functional [@Gu2004;@Jackson2004].
+Other lines of evidence challenging assumptions of composability include: regulatory protein binding to motifs in mRNA depends on the sequence context [@Taliaferro2016]; some regulatory RNA-binding proteins bind with gapped multi-partite motifs [@Bayne2021]; some motifs must be repeated in the same transcript to be detectably functional [@Gu2004;@Jackson2004]; and promoter sequences can direct cytoplasmic translation events [@Zid2014]. 
 A combination of experimental and computational techniques, as used here, enables the quantification of more complex context-dependent regulatory effects. 
 
 Conceptual models of genes are built in to the tools that biologists use, and can limit their ability to predict and manipulate gene expression [@Szymanski2019].

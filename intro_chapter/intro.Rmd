@@ -4,7 +4,7 @@ Our understanding of gene expression relies on the abstraction of a gene into di
 The promoter coordinates the initiation of transcription.
 Transcription then progresses until it reaches the terminator, where cleavage and (in eukaryotes) polyadenylation of the nascent RNA transcript is coordinated.
 Extending the abstraction to the mature messenger RNA transcript, the coding sequence is flanked by untranslated regions (UTRs) at its 5' and  3' ends.
-The 5’UTR contributes to translation regulation [@Dai2015] and the 3’UTR to transcript stability and localisation [@Naseri2020].
+The 5’UTR contributes to translation regulation [@Brar2016] and the 3’UTR to transcript stability and localisation [@Mayr2017].
 
 These abstractions have facilitated the development of large genetic toolkits that are based on the modular assembly of interchangeable parts [@Curran2013; @Guo2015; @Lee2015moclo; @Garcia2018; @Andreou2018].
 Such toolkits implicitly assume that parts characterised in one context will behave similarly in other contexts, for example that a terminator will behave similarly when paired with any promoter and coding sequence.
