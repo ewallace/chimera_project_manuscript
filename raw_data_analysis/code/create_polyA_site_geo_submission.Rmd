@@ -1,7 +1,7 @@
 ---
 title: "Create poly(A) site GEO submission"
-author: "Sam Haynes"
-date: "22/02/2022"
+author: "Sam Haynes & Edward Wallace"
+date: "03/11/2023"
 output: html_document
 ---
 
@@ -22,7 +22,7 @@ library(stringr)
 library(ggtext)
 library(glue)
 
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 source(here("raw_data_analysis/code/shared_figure_formatting.R"))
 ```
 
@@ -37,7 +37,7 @@ genomic_gene_dictionary <- tibble(construct_name = c("chrXIII", "chrIII",
                                                  "tRPS3", "tHSP26", "tPMA1"),
                                   mod = "genomic")
 
-construct_stop_codon_dictionary <- read_csv(here("raw_data_analysis/data/rna_seq/gene_of_interest_stop_codons"))
+construct_stop_codon_dictionary <- read_csv(here("raw_data_analysis/data/rna_seq/gene_of_interest_stop_codons.csv"))
 
 sample_to_construct_dictionary_QuantSeq <- read_csv(here("raw_data_analysis/data/rna_seq/sample_to_construct_table_QuantSeq.csv"))
 
@@ -323,6 +323,8 @@ full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads_plasmid <-
 ```{r whole-genome-counts}
 raw_featureCounts_files_QuantSeq <- list.files("../data/rna_seq/counts/QuantSeq", pattern = "*.txt$", recursive = TRUE, full.names = TRUE)
 
+raw_featureCounts_files_QuantSeq_batch2 <- list.files("../data/rna_seq/counts/QuantSeq_batch2", pattern = "*.txt$", recursive = TRUE, full.names = TRUE)
+
 raw_featureCounts_files_5PSeq <- list.files("../data/rna_seq/counts/5PSeq", pattern = "*.txt$", recursive = TRUE, full.names = TRUE)
 
 all_sample_counts_QuantSeq <- raw_featureCounts_files_QuantSeq %>%
@@ -336,6 +338,22 @@ all_sample_counts_QuantSeq <- raw_featureCounts_files_QuantSeq %>%
   select(-construct_name) %>%
   unite("sample", promoter, terminator, type, rep) %>%
   mutate(sample = str_replace(sample, "NA_NA_Control", "POT1_ccdB")) %>%
+  pivot_wider(names_from = "sample", values_from = "counts")
+
+all_sample_counts_QuantSeq_batch2 <- raw_featureCounts_files_QuantSeq_batch2 %>%
+  map(extract_gene_counts_from_featureCounts_file) %>%
+  reduce(full_join, by = "Geneid") %>%
+  pivot_longer(-Geneid, values_to = "counts", names_to = "sample") %>%
+  mutate(sample = factor(sample, levels = expand.grid("WD_C",7:16) %>% 
+                           unite(factor, sep = "") %>% 
+                           add_row(factor = c("WD_E2", "WD_E3")) %>% 
+                           pull(factor))) %>%
+  arrange(Geneid, sample) %>%
+  inner_join(sample_to_construct_dictionary_QuantSeq_batch2, by = c("sample" = "sample_name")) %>%
+  mutate(promoter = str_extract(construct_name, "^p[A-Z0-9]+"), terminator = str_extract(construct_name, "(?<=\\-)t[A-Z0-9]+(?=_)")) %>%
+  select(-construct_name) %>%
+  unite("sample", promoter, terminator, rep) %>%
+  # mutate(sample = str_replace(sample, "NA_NA_Control", "POT1_ccdB")) %>%
   pivot_wider(names_from = "sample", values_from = "counts")
 
 all_sample_counts_5PSeq <- raw_featureCounts_files_5PSeq %>%
@@ -355,20 +373,23 @@ all_sample_counts_5PSeq <- raw_featureCounts_files_5PSeq %>%
 
 # Write counts per gene
 
-```{r write_out_3UTR_counts, include = FALSE}
+```{r write_out_3UTR_counts}
 write_tsv(full_length_QuantSeq_plasmids_cumulative_polyA_reads, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq/QS_processed_polyA_constructs.tsv"))
 
 write_tsv(full_length_QuantSeq_plasmids_cumulative_polyA_reads_genomic, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq/QS_processed_polyA_controls.tsv"))
 
-write_tsv(full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads_plasmid, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq_batch2/QS_processed_polyA_constructs.tsv"))
+write_tsv(full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads_plasmid, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq_batch2/QS_batch2_processed_polyA_constructs.tsv"))
 
-write_tsv(full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads_control, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq_batch2/QS_processed_polyA_controls.tsv"))
+write_tsv(full_length_QuantSeq_batch2_plasmids_cumulative_polyA_reads_control, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/QuantSeq_batch2/QS_batch2_processed_polyA_controls.tsv"))
 
 write_tsv(full_length_5PSeq_plasmids_cumulative_polyA_reads, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/5PSeq/FPS_processed_polyA_constructs.tsv"))
 
 write_tsv(full_length_5PSeq_plasmids_cumulative_polyA_reads_genomic, here("raw_data_analysis/data/rna_seq/construct_polyA_bam/5PSeq/FPS_processed_polyA_controls.tsv"))
 
 write_tsv(all_sample_counts_QuantSeq, here("raw_data_analysis/data/rna_seq/counts/QuantSeq/QS_all_sample_gene_counts.tsv"))
+
+write_tsv(all_sample_counts_QuantSeq_batch2, here("raw_data_analysis/data/rna_seq/counts/QuantSeq_batch2/QS_batch2_all_sample_gene_counts.tsv"))
+
 
 write_tsv(all_sample_counts_5PSeq, here("raw_data_analysis/data/rna_seq/counts/5PSeq/FPS_all_sample_gene_counts.tsv"))
 ```
