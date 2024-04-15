@@ -191,19 +191,22 @@ First, to ask if poly(A) site depends only on the terminator sequence or on the 
 Second, to find if motif effects on mRNA abundance could be due to changes in the poly(A) site usage.
 Third, to check if motifs inserted in our terminators were unintentionally absent from the mature mRNA.
 We performed paired-end RNA-Seq using the QuantSeq REV protocol [@Moll2014], and mapped the reads to genome sequences extended by the relevant reporter plasmid sequence (see methods).
-Read 1 allows precise inference of poly(A) site position while read 2 generally overlaps the CDS and allows distinguishing terminators in native loci from reporter constructs, as long as the distance between poly(A)-site and stop codon is under about 300nt and so within the sequenced fragment length.
+Read 1 allows precise inference of poly(A) site position while read 2 generally overlaps the CDS and allows distinguishing terminators in native loci from reporter constructs, as long as the distance between poly(A)-site and stop codon is under about 300nt and so within the sequenced fragment length (Figure \@ref(fig:rnaseq-genomic-vs-plasmid-polyA)A)
 We detected 1000s of reads on each reporter construct, which is enough to quantify poly(A) sites and expression with confidence.
 We display the poly(A) sites as the cumulative fraction of poly(A)-site reads mapped at each location downstream of construct stop codons, out of all reads mapped to the terminator.
 In native genes the poly(A) site locations were highly reproducible across samples (Supplementary Figure \@ref(fig:rnaseq-QC-QuantSeq-and-5PSeq-genomic-polyA)), and counts of native mRNAs are highly correlated between samples (Supplementary Figure \@ref(fig:rnaseq-QC-correlation)), giving us confidence that changes in construct detection and poly(A) sites are meaningful.
 
-Poly(A) sites are in the same positions relative to the stop codon in wild-type terminators at native genomic loci and in plasmid constructs (Figure \@ref(fig:rnaseq-genomic-vs-plasmid-polyA)).
-For plasmid-expressed terminators tPGK1, tTSA1, tRPS3, tHSP26 and tTOS6 driving mCherry expression, the major poly(A)-site is conserved and the poly(A)-site distribution is largely indistinguishable.
+Poly(A) sites are generally in the same positions relative to the stop codon in wild-type terminators at native genomic loci and in plasmid constructs (Figure \@ref(fig:rnaseq-genomic-vs-plasmid-polyA)B).
+For plasmid-expressed terminators tTSA1, tRPS3, tHSP26 and tTOS6 driving mCherry expression, the major poly(A)-site is conserved and the poly(A)-site distribution is largely indistinguishable.
 Poly(A) sites are conserved in terminators regardless of the paired promoter, across tPGK1, tRPS3, and tTOS6 expressed downstream of pRPS3, and tTSA1 expressed paired with cognate pTSA1.
-The tHSP26 terminator has similar poly(A)-site distribution expressed paired with pHSP26, pRPS3, and pRPS13, although there is some termination after the major poly(A)-site in pHSP26-mCherry-tHSP26.
-We excluded a tPMA1 terminator from our analysis because the 420nt terminator was longer than library fragment lengths so we could not distinguish plasmid from genomic poly(A)-site reads.
+The tHSP26 terminator has similar poly(A)-site distribution expressed paired with pHSP26, pRPS3, and pRPS13, although there is some termination downstream of the major poly(A)-site in pHSP26-mCherry-tHSP26.
+The exception is tPMA1, where the region of poly(A)-sites 350-450nt downstream of the stop codon made the observed terminator longer than RNA-seq library fragment lengths, so we could not reliably distinguish plasmid from genomic reads.
+This highlights a limitation of our experimental design, and investigation of longer terminators requires either different sequencing methods or strain construction, such as replacing the promoter on the native gene.
+However, having validated the assay on shorter tTSA1 and tRPS3 constructs, we next investigated the effect of terminator mutations.
 
 
-```{r rnaseq-genomic-vs-plasmid-polyA, fig.cap="\\textbf{Poly(A) sites are largely in the same positions in wild-type terminators at native genomic loci and plasmid constructs.} Cumulative fraction of poly(A)-site reads mapped downstream of stop codons, for native genomic terminators and selected plasmid construct terminators. Each line plots the cumulative counts of a separate replicate, with solid line for genomic copy and dashed line for plasmid-expressed copy, coloured by promoter. In some panels the dashed line indicating plasmid-mapped reads overlaps the genome-mapped reads as the cumulative distributions are not distinguishable.", fig.align='center'}
+
+```{r rnaseq-genomic-vs-plasmid-polyA, fig.cap="\\textbf{Poly(A) sites are largely in the same positions in wild-type terminators at native genomic loci and plasmid constructs.} A, Schematic of experimental design to use poly(A)-proximal RNA-seq with QuantSeq REV to distinguish poly(A)-sites in native and reporter genes. B, Cumulative fraction of poly(A)-site reads mapped downstream of stop codons, for native genomic terminators and selected plasmid construct terminators. Each line plots the cumulative counts of a separate replicate, with solid line for genomic copy and dashed line for plasmid-expressed copy, coloured by promoter. In some panels the dashed line indicating plasmid-mapped reads overlaps the genome-mapped reads as the cumulative distributions are not distinguishable.", fig.align='center'}
 knitr::include_graphics(here("results_chapter/figures/plasmid_vs_genome_polyA_combined_plot.png"))
 ```
 

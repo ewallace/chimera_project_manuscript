@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="150mm"
+   height="82mm"
+   viewBox="0 0 149.99999 82.000005"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="terminator_vs_fragment_length.svg"
+   inkscape:version="1.2 (dc2aeda, 2022-05-15)"
+   inkscape:export-filename="terminator_vs_fragment_length.png"
+   inkscape:export-xdpi="300.08"
+   inkscape:export-ydpi="300.08"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.4037849"
+     inkscape:cx="326.617"
+     inkscape:cy="196.25515"
+     inkscape:window-width="1512"
+     inkscape:window-height="841"
+     inkscape:window-x="0"
+     inkscape:window-y="38"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="590.7049"
+       y="336.25894"
+       width="409.81558"
+       height="96.824562"
+       id="rect605" />
+    <marker
+       style="overflow:visible"
+       id="marker1369"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="TriangleStart"
+       markerWidth="2.99982"
+       markerHeight="3.4679999"
+       viewBox="0 0 5.3244081 6.1553851"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1367" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleStart"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="TriangleStart"
+       markerWidth="3"
+       markerHeight="3.4682081"
+       viewBox="0 0 5.3244081 6.1553851"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="TriangleStart-0"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="TriangleStart"
+       markerWidth="3"
+       markerHeight="3.4682081"
+       viewBox="0 0 5.3244081 6.1553851"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-7" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker1369-4"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="TriangleStart"
+       markerWidth="2.99982"
+       markerHeight="3.4679999"
+       viewBox="0 0 5.3244081 6.1553851"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path1367-8" />
+    </marker>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(8.5596994,-27.085215)">
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;stroke-width:0.264583"
+       x="11.382346"
+       y="60.237534"
+       id="text585"><tspan
+         sodipodi:role="line"
+         id="tspan583"
+         style="stroke-width:0.264583"
+         x="11.382346"
+         y="60.237534" /></text>
+    <path
+       id="rect559"
+       style="fill:#000080;stroke:#000000;stroke-width:0.499999;stroke-linecap:butt;paint-order:markers stroke fill;stop-color:#000000"
+       d="m 38.499619,36.173035 h 38.970249 v 4.403968 H 38.499619"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       style="fill:#0000ff;stroke:#000000;stroke-width:0.499999;stroke-linecap:round;-inkscape-stroke:none;paint-order:markers stroke fill;stop-color:#000000"
+       id="rect561"
+       width="30.165653"
+       height="4.4039688"
+       x="77.969872"
+       y="36.173035" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;text-anchor:start;stroke-width:0.264583"
+       x="109.14168"
+       y="39.584248"
+       id="text565"><tspan
+         sodipodi:role="line"
+         id="tspan563"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Courier New';-inkscape-font-specification:'Courier New';text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="109.14168"
+         y="39.584248">AAAAAAAAAA</tspan></text>
+    <path
+       id="rect567"
+       style="fill:#800000;stroke:#000000;stroke-width:0.499999;stroke-linecap:butt;paint-order:markers stroke fill;stop-color:#000000"
+       d="m 38.499619,44.373474 h 38.970249 v 4.403969 H 38.499619"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       style="fill:#0000ff;stroke:#000000;stroke-width:0.499999;stroke-linecap:round;-inkscape-stroke:none;paint-order:markers stroke fill;stop-color:#000000"
+       id="rect569"
+       width="30.165653"
+       height="4.4039688"
+       x="77.969872"
+       y="44.373474" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;text-anchor:start;stroke-width:0.264583"
+       x="109.14168"
+       y="47.784683"
+       id="text573"><tspan
+         sodipodi:role="line"
+         id="tspan571"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Courier New';-inkscape-font-specification:'Courier New';text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="109.14168"
+         y="47.784683">AAAAAAAAAA</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;stroke-width:0.264583"
+       x="33.988144"
+       y="39.605747"
+       id="text577"><tspan
+         sodipodi:role="line"
+         id="tspan575"
+         style="stroke-width:0.264583"
+         x="33.988144"
+         y="39.605747">Native gene</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;stroke-width:0.264583"
+       x="33.988144"
+       y="47.983208"
+       id="text581"><tspan
+         sodipodi:role="line"
+         id="tspan579"
+         style="stroke-width:0.264583"
+         x="33.988144"
+         y="47.983208">Reporter gene</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;stroke-width:0.264583"
+       x="87.977623"
+       y="62.073418"
+       id="text577-4"><tspan
+         sodipodi:role="line"
+         id="tspan575-3"
+         style="text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="87.977623"
+         y="62.073418">~300nt RNA-seq fragment </tspan><tspan
+         sodipodi:role="line"
+         style="text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="87.977623"
+         y="67.365082"
+         id="tspan1516">longer than terminator, distinguishes</tspan></text>
+    <path
+       id="rect1654"
+       style="fill:#008080;stroke:#000000;stroke-width:0.499999;stroke-linecap:butt;paint-order:markers stroke fill;stop-color:#000000"
+       d="m 28.974613,76.608612 h 38.970249 v 4.403969 H 28.974613"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       style="fill:#00ffff;stroke:#000000;stroke-width:0.499999;stroke-linecap:round;-inkscape-stroke:none;paint-order:markers stroke fill;stop-color:#000000"
+       id="rect1656"
+       width="44.685436"
+       height="4.4039688"
+       x="68.444862"
+       y="76.608612" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;text-anchor:start;stroke-width:0.264583"
+       x="113.90419"
+       y="80.019806"
+       id="text1660"><tspan
+         sodipodi:role="line"
+         id="tspan1658"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Courier New';-inkscape-font-specification:'Courier New';text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="113.90419"
+         y="80.019806">AAAAAAAAAA</tspan></text>
+    <path
+       id="rect1662"
+       style="fill:#800000;stroke:#000000;stroke-width:0.499999;stroke-linecap:butt;paint-order:markers stroke fill;stop-color:#000000"
+       d="M 28.974613,84.809021 H 67.944862 V 89.21299 H 28.974613"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       style="fill:#00ffff;stroke:#000000;stroke-width:0.499999;stroke-linecap:round;-inkscape-stroke:none;paint-order:markers stroke fill;stop-color:#000000"
+       id="rect1664"
+       width="44.685436"
+       height="4.4039688"
+       x="68.444862"
+       y="84.809021" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;text-anchor:start;stroke-width:0.264583"
+       x="113.90419"
+       y="88.220222"
+       id="text1668"><tspan
+         sodipodi:role="line"
+         id="tspan1666"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Courier New';-inkscape-font-specification:'Courier New';text-align:start;text-anchor:start;stroke-width:0.264583"
+         x="113.90419"
+         y="88.220222">AAAAAAAAAA</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;stroke-width:0.264583"
+       x="24.463135"
+       y="80.04129"
+       id="text1672"><tspan
+         sodipodi:role="line"
+         id="tspan1670"
+         style="stroke-width:0.264583"
+         x="24.463137"
+         y="80.04129">Native gene</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;stroke-width:0.264583"
+       x="24.463135"
+       y="88.418785"
+       id="text1676"><tspan
+         sodipodi:role="line"
+         id="tspan1674"
+         style="stroke-width:0.264583"
+         x="24.463135"
+         y="88.418785">Reporter gene</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;stroke-width:0.264583"
+       x="94.113556"
+       y="100.23634"
+       id="text1686"><tspan
+         sodipodi:role="line"
+         id="tspan1680"
+         style="text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="94.113556"
+         y="100.23634">RNA-seq fragment </tspan><tspan
+         sodipodi:role="line"
+         style="text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="94.113556"
+         y="105.52801"
+         id="tspan1690">shorter than terminator, cannot distinguish</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#666666;stroke-width:0.264583"
+       x="70.29744"
+       y="32.225529"
+       id="text487"><tspan
+         sodipodi:role="line"
+         id="tspan485"
+         style="fill:#666666;stroke-width:0.264583"
+         x="70.29744"
+         y="32.225529">Coding sequence</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#666666;stroke-width:0.264583"
+       x="106.7494"
+       y="32.225529"
+       id="text491"><tspan
+         sodipodi:role="line"
+         id="tspan489"
+         style="fill:#666666;stroke-width:0.264583"
+         x="106.7494"
+         y="32.225529">Terminator part</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#666666;stroke-width:0.264583"
+       x="132.78732"
+       y="32.225529"
+       id="text495"><tspan
+         sodipodi:role="line"
+         id="tspan493"
+         style="fill:#666666;stroke-width:0.264583"
+         x="132.78732"
+         y="32.225529">poly(A)-tail</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,-12.786829,28.143549)"
+       id="text603"
+       style="font-size:16px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;white-space:pre;shape-inside:url(#rect605);display:inline" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#000080;stroke-width:0.264583"
+       x="38.233707"
+       y="38.586891"
+       id="text499"><tspan
+         sodipodi:role="line"
+         id="tspan497"
+         x="38.233707"
+         y="38.586891"
+         style="fill:#000080;stroke-width:0.264583">...</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#800000;stroke-width:0.264583"
+       x="28.708698"
+       y="87.222878"
+       id="text532"><tspan
+         sodipodi:role="line"
+         id="tspan530"
+         x="28.708698"
+         y="87.222878"
+         style="fill:#800000;stroke-width:0.264583">...</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#008080;stroke-width:0.264583"
+       x="28.708698"
+       y="79.022469"
+       id="text536"><tspan
+         sodipodi:role="line"
+         id="tspan534"
+         x="28.708698"
+         y="79.022469"
+         style="fill:#008080;stroke-width:0.264583">...</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#800000;stroke-width:0.264583"
+       x="38.233707"
+       y="46.787331"
+       id="text540"><tspan
+         sodipodi:role="line"
+         id="tspan538"
+         x="38.233707"
+         y="46.787331"
+         style="fill:#800000;stroke-width:0.264583">...</tspan></text>
+    <g
+       id="g2452"
+       transform="translate(0.9612803,1.0583333)">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleStart)"
+         d="M 94.605545,53.978028 H 106.42383"
+         id="path2395" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:0.5, 1;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 81.552308,53.978028 c 4.351079,0 8.702158,0 13.053237,0"
+         id="path2379"
+         sodipodi:nodetypes="cc" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker1369)"
+         d="M 69.734023,53.978028 H 81.552308"
+         id="path590" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#666666;stroke-width:0.264583"
+       x="82.373314"
+       y="54.128021"
+       id="text2474"><tspan
+         sodipodi:role="line"
+         id="tspan2472"
+         style="font-size:3.52778px;fill:#666666;stroke-width:0.264583"
+         x="82.373314"
+         y="54.128021">read 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:3.52778px;line-height:1.25;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;text-anchor:end;fill:#666666;stroke-width:0.264583"
+       x="105.89772"
+       y="54.128021"
+       id="text2478"><tspan
+         sodipodi:role="line"
+         id="tspan2476"
+         style="font-size:3.52778px;fill:#666666;stroke-width:0.264583"
+         x="105.89772"
+         y="54.128021">read 2</tspan></text>
+    <g
+       id="g2452-5"
+       transform="translate(5.9560542,39.183485)">
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#TriangleStart-0)"
+         d="M 94.605545,53.978028 H 106.42383"
+         id="path2395-8" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:0.5, 1;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 81.552308,53.978028 c 4.351079,0 8.702158,0 13.053237,0"
+         id="path2379-3"
+         sodipodi:nodetypes="cc" />
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker1369-4)"
+         d="M 69.734023,53.978028 H 81.552308"
+         id="path590-0" />
+    </g>
+  </g>
+</svg>

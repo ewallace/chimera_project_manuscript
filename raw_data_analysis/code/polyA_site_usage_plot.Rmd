@@ -26,6 +26,7 @@ library(stringr)
 library(ggtext)
 library(glue)
 library(broom)
+library(magick)
 
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 source(here("raw_data_analysis/code/shared_figure_formatting.R"))
@@ -461,22 +462,34 @@ plasmid_vs_genome_polyA_QuantSeq <-
 # make a faceted plot with all the data on same x-axis,
 # except exclude tPMA1 because beyond the limit of confident detection
 plasmid_vs_genome_polyA_facet_plot <- 
-  ggplot(plasmid_vs_genome_polyA_QuantSeq %>% 
-           filter(terminator != "tPMA1")) +
+  ggplot(plasmid_vs_genome_polyA_QuantSeq  
+          %>% filter(terminator != "tPGK1")
+           # %>% filter(terminator != "tPMA1")
+         ) +
   cumulative_reads_plot_genomic_vs_plasmid +
-  make_scale_x_terminator(tstop = 300) + 
+  make_scale_x_terminator(tstop = 500) + 
   facet_wrap(~terminator, ncol = 1) +
   guides(linetype = guide_legend(ncol = 1),
          colour   = guide_legend(ncol = 1))
 
-plasmid_vs_genome_polyA_facet_plot
+
+terminator_vs_fragment_length_figure <- 
+  image_read(here("raw_data_analysis/figures/terminator_vs_fragment_length.png"))
+
+composite_plasmid_vs_genome_polyA_facet_plot <-
+  plot_grid(ggdraw() + draw_image(terminator_vs_fragment_length_figure),
+            plasmid_vs_genome_polyA_facet_plot, 
+            labels = "AUTO", ncol = 1, rel_heights = c(0.5,1))
+
+composite_plasmid_vs_genome_polyA_facet_plot
 ```
 
 ```{r output-cumulative-graph-plasmid-WT-vs-genome}
+
 ggsave2(here("results_chapter/figures/plasmid_vs_genome_polyA_combined_plot.png"), 
-        plasmid_vs_genome_polyA_facet_plot,
+        composite_plasmid_vs_genome_polyA_facet_plot,
         width = fig_width_1column,
-        height = 125,
+        height = 140,
         units = "mm",
         dpi = fig_dpi,
         bg = "white")
